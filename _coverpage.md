@@ -2,7 +2,7 @@
 
 <!-- ![logo](_media/icon.svg) -->
 
-# #Ruter <small>dev</small>
+# #Ruter <small>doc</small>
 
 > API Documentation  
 
