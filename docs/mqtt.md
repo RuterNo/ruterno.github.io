@@ -1,10 +1,8 @@
 # MQTT
 
-Mqtt is light-weight pub-sub messaging protocol often used for machine-to-machine (M2M)/"Internet of Things" communication. It is one of the standard
-communication protocols defined in ITxPT, and the way vehicles are supposed to communicate with Ruter.
+MQTT is light-weight pub-sub messaging protocol often used for machine-to-machine (M2M)/"Internet of Things" communication. It is one of the standard communication protocols defined in ITxPT, and the way vehicles are supposed to communicate with Ruter.
 
-?> _Notice_ MQTT is a fairly new addition to the ITxPT standard, and is currently a work in progress. Ruter is an active member in the international 
-standard committee.   
+?> _Notice_ MQTT is a fairly new addition to the ITxPT standard, and is currently a work in progress. Ruter is an active member in the international standard committee.   
 
 For more information, see: 
 - [MQTT.org](https://mqtt.org)
@@ -14,19 +12,20 @@ For more information, see:
 Two key elements of the architecture are the MQTT broker and the MQTT bridges. 
 
 ### MQTT broker (Ruter)
-Ruter operates a central MQTT broker that communicates with all the vehicles. The server currently supports the MQTT protocol 
-versions 5.0 and 3.1.1.  
+Ruter operates a central MQTT broker that communicates with all the vehicles. The server currently supports the MQTT protocol versions 5.0 and 3.1.1. 
+
+?> _Notice_ To use MQTT protocol version 5.0, make sure that the client library supports it.
 
 All communication with the MQTT broker is encrypted during transport using TLS 1.2. 
 
 ### MQTT bridge (On-board Vehicle)
 
-The operator is to maintain a mqtt bridge on board the vehicle. The mqtt bridge acts as a proxy and forwards requests back and forth
-between the vehicle and Ruter. 
+The operator is to maintain a MQTT bridge on board the vehicle. The MQTT bridge acts as a proxy and forwards requests back and forth between the vehicle and Ruter. 
 
 To get access to the MQTT broker, you need to reach out to Ruter to be provided with credentials. 
 
 There is no strict requirement as to what implementation you chose of the mqtt bridge, as long as it is stable and fullfills the standard. 
+
 There are multiple open-source solutions to choose from, i.e. [https://mosquitto.org](https://mosquitto.org/).  
 
 #### Example configuration file (Mosquitto)
@@ -45,7 +44,7 @@ allow_anonymous true
 # Ruter MQTT Bridge
 #
 connection bus-to-authority-bridge
-address mqtt-test.ruter.io:8883
+address mqtt.test.transhub.io:8883
 remote_username *****
 remote_password *****
 bridge_attempt_unsubscribe true
@@ -77,8 +76,7 @@ topic json out 1 infohub/dpi/diagnostic/ ruter/OPERATOR_ID/VEHICLE_ID/itxpt/ota/
 
 Ruter reserves the right to update the topic configuration and content packages when it deems it necessary. 
 
-While the PTO is responsible for setting up the mqtt bridge configuration correctly according to the software running on the vehicle, 
-Ruter provides an api listing all the topics that should be made available for the services on-board the vehicle. 
+While the PTO is responsible for setting up the mqtt bridge configuration correctly according to the software running on the vehicle, Ruter provides an api listing all the topics that should be made available for the services on-board the vehicle. 
 
 A description of the process can be found in the document below: 
 - [MQTT topic updates](https://ruterno.github.io/ota-schemas/mqtt-updates/index.html)
