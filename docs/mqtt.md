@@ -68,7 +68,7 @@ topic json in 1 infohub/dpi/deviation/ OPERATOR_ID/ruter/VEHICLE_ID/itxpt/ota/dp
 topic json in 1 infohub/dpi/audio/ OPERATOR_ID/ruter/VEHICLE_ID/itxpt/ota/dpi/audio/
 topic json in 1 infohub/dpi/arriving/ OPERATOR_ID/ruter/VEHICLE_ID/itxpt/ota/dpi/arriving/
 topic json in 1 infohub/dpi/c2/ OPERATOR_ID/ruter/VEHICLE_ID/itxpt/ota/dpi/c2/
-topic json out 1 infohub/dpi/diagnostic/ ruter/OPERATOR_ID/VEHICLE_ID/itxpt/ota/dpi/diagnostic/
+topic json out 1 infohub/dpi/diagnostics/ ruter/OPERATOR_ID/VEHICLE_ID/itxpt/ota/dpi/diagnostics/
 
 ```
 
