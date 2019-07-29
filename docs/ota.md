@@ -11,6 +11,7 @@ MQTT is used as the transport mechanism for all OTA messages. MQTT is a simple p
 
 ## Description of messages
 
+### External documentation
 Link to an external webpage describing all the OTA messages in detail:
 * [OTA messages](https://ruterno.github.io/ota-schemas/mqtt/index.html)
 
