@@ -30,7 +30,7 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
      "eventTimestamp": "2017-10-31T08:38:02.749Z",
      "expiryTimestamp": "2017-10-31T08:38:47.749Z",
      "type": "ARRIVING",
-     "ref": "RUT:StopPlace:03012453",
+     "ref": "NSR:StopPlace:4384",
      "value": [
        {
          "encoding": "OPUS",
