@@ -27,6 +27,7 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 
 #### Example payload 1
 ```
+
 {
      "eventTimestamp": "2017-10-31T08:38:02.749Z",
      "expiryTimestamp": "2017-10-31T08:38:47.749Z",
@@ -57,6 +58,7 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 ```
 #### Example payload 2
 ```
+
 {
        "eventTimestamp": "2019-07-29T12:52:08.461Z",
        "expiryTimestamp": "2019-04-25T07:24:24.431Z",
