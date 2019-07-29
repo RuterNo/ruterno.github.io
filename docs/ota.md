@@ -26,7 +26,8 @@ Link to an external webpage describing all the OTA messages in detail:
 Topic used exclusively to transmit audio messages to be played by the speaker system. The audio messages may contain an array of sound bites, that are to be played in the sequence they have been received.  
 
 #### Example payload 1
-```{
+```
+{
      "eventTimestamp": "2017-10-31T08:38:02.749Z",
      "expiryTimestamp": "2017-10-31T08:38:47.749Z",
      "type": "ARRIVING",
@@ -55,7 +56,8 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 
 ```
 #### Example payload 2
-```{
+```
+{
        "eventTimestamp": "2019-07-29T12:52:08.461Z",
        "expiryTimestamp": "2019-04-25T07:24:24.431Z",
        "ref": "NSR:StopPlace:4384",
