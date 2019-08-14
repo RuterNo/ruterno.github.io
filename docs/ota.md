@@ -127,6 +127,50 @@ A volume level of 100 is only to be used in the event of an emergency situation.
 | EXTERNAL   | 70             | 90 dB, approximately 1 meter from door 1       |
 | EXTERNAL   | 100            | max 100 dB, approximately 1 meter from door 1      |
 
+
+
+### MADT notification
+
+| Field         | Value                                                   |
+|---------------|---------------------------------------------------------|
+| Name          | MADT notification                                       |
+| Local topic   | madt/notification/json                                  |
+| Central topic | operatorId/ruter/vehicleId/itxpt/ota/madt/notification/json |
+
+Notification message sent to the MADT device inside the bus. To be used to inform the bus driver from the Ruter backoffice.
+
+The text message may contain the "Line Feed" character (\n), indicating line breaks. 
+
+#### Example payload 1
+```
+
+{
+    "eventTimestamp": "2019-08-14T11:03:21.000Z",
+    "urgency": "MEDIUM",
+    "subject": "Pålogging feilet!",
+    "content": "Pålogging på: \n\nBlockRef: 11029\nJourneyRef: 107\n\nfeilet! Vennligst prøv igjen, eller meld inn feilen til driftssentral om problemet er gjentagende."
+}
+
+```
+
+#### Fields
+##### Header
+| Name            | Type           |  Description                                              |
+|-----------------|----------------|-----------------------------------------------------------|
+| eventTimestamp  | string         | ISO 8601, UTC                                             |
+| urgency         | string         | Notification importance. Based on Android notification importance. Ref: [developer.android.com](https://developer.android.com/guide/topics/ui/notifiers/notifications#importance) |
+| subject         | string         | Subject of the message                                    |
+| content         | string         | Content of the message                                    |
+
+##### Enum Urgency
+| Name      | Description                                           |
+|-----------|-------------------------------------------------------|
+| URGENT    | Makes a sound and appears as a heads-up notification. |
+| High      | Makes a sound.                                        |
+| Medium    | No sound.                                             |
+| Low       | No sound and does not appear in the status bar.       |
+
+
 ## JSON Schemas
 
 Link to JSON schemas for all OTA payloads going back and forth between PTO and PTA:
