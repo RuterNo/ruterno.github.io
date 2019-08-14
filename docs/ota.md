@@ -166,9 +166,9 @@ The text message may contain the "Line Feed" character (\n), indicating line bre
 | Name      | Description                                           |
 |-----------|-------------------------------------------------------|
 | URGENT    | Makes a sound and appears as a heads-up notification. |
-| High      | Makes a sound.                                        |
-| Medium    | No sound.                                             |
-| Low       | No sound and does not appear in the status bar.       |
+| HIGH      | Makes a sound.                                        |
+| MEDIUM    | No sound.                                             |
+| LOW       | No sound and does not appear in the status bar.       |
 
 
 ## JSON Schemas
