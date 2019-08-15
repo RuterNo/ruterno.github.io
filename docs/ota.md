@@ -112,20 +112,20 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 | EXTERNAL   | 3    | External speaker for announcements to waiting passengers |
 Speaker types corresponds to the ITxPT-standard, S01v2.0.1_2017, Vehicle Installation Requirements Specification, side 32.
 
-#### Volume levels
-The table below describes the approximate volume levels the sound system should be producing both inside and outside of the vehicle. 
+#### Decibel levels
+The table below describes the approximate decibel levels the sound system should be producing both inside and outside of the vehicle. 
 
-A message volume of 70 is what you should expect during normal operations. When adjusting the volume levels, your priority should be to best fit the volume level to the normal operation range. 
-A volume level of 100 is only to be used in the event of an emergency situation. 
+A message volume of 70 is what you should expect during normal operations. When adjusting the decibel levels, your priority should be to best fit the decibel level to the normal operation range. 
+A message volume level of 100 is only to be used in the event of an emergency situation. 
 
 | Speaker    | Message volume | Decibel volume                                 |
 |------------|----------------|------------------------------------------------|
 | PASSENGERS | 70             | 70 – 73 dB, approximately 1 meter from speaker |
-| PASSENGERS | 100            | max 90 dB, approximately 1 meter from speaker      |
+| PASSENGERS | 100            | max 90 dB, approximately 1 meter from speaker  |
 | DRIVER     | 70             | 70 – 73 dB, approximately 1 meter from speaker |
-| DRIVER     | 100            | max 90 dB, approximately 1 meter from speaker      |
+| DRIVER     | 100            | max 90 dB, approximately 1 meter from speaker  |
 | EXTERNAL   | 70             | 90 dB, approximately 1 meter from door 1       |
-| EXTERNAL   | 100            | max 100 dB, approximately 1 meter from door 1      |
+| EXTERNAL   | 100            | max 100 dB, approximately 1 meter from door 1  |
 
 
 
