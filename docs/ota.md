@@ -728,11 +728,11 @@ The field expiryTimestamp has been added to to prevent delayed messages from bei
   "zoneId": "2b-vest",
   "message": {
     "no": {
-      "title": "Ankommer"
+      "title": "Ankommer",
       "text": "Oslo sentralstasjon"
     },
     "en": {
-      "title": "Arriving at"
+      "title": "Arriving at",
       "text": "Oslo Central Station"
     }
   }
