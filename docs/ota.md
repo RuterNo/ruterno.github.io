@@ -15,28 +15,28 @@ Ruter has agreed with the operators to use only JSON in MQTT messages and not su
 The summary refers to topics on board the buses. See below for mapping of the local topic to the bridged topic.
 Changes noted in status are based on a comparison with v1.1 of the OTA Messages document. Direction is in/out of the bus.
 
-| Local topic                        | Change     | Direction   | Name                             | Comments                                                                                                                                                                                             |
-|------------------------------------|------------|-------------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| signon/json                        |            | Out         | Start block                      |                                                                                                                                                                                                      |
-| signoff/json                       |            | Out         | Complete block                   |                                                                                                                                                                                                      |
-| avl/json                           |            | Out         | Vehicle position                 |                                                                                                                                                                                                      |
-| apc/+/json                         |            | Out         | Passenger count                  | **"+"** is the placeholder for the door number                                                                                                                                                            |
-| stopsignal/json                    | **New**    | Out         | Stop signal status               | This signal does not exist in FMS and must be read directly from the electrical signal system on board                                                                                               |
-| telemetry/+/json                   | **New**    | Out         | Vehicle telemetry                | **"+"** is the placeholder for an ID, such as PGN which is defined in the FMS standard; We specify which PGN or other telemetry data should be sent. **Used to be fmstoip but has now been generalized.** |
-| infohub/dpi/diagnostics/json       | **New**    | Out         | Diagnostics for screens          | DPI diagnostics data to make sure the displays are set up correctly and are running as expected                                                                                                      |
-| tsp/json                           | **New**    | In          | Signal prioritization            | Message to be sent directly from the bus to facilitate signal priority at traffic lights                                                                                                             |
-| madt/notification/json             |            | In          | Message to driver                | Notification messages to driver. Produced by Ruters backoffice and consumed by MADT device on-board the vehicle.                                                                                     |
-| infohub/dpi/journey/json           | Modified   | In          | Vehicle journey                  | Coordinates for the stop are now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                         |
-| infohub/dpi/nextstop/json          |            | In          | Next stop                        | stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                                                                    |
-| infohub/dpi/eta/json               | Modified   | In          | Estimated arrivals               | The text for the time to be displayed on the screen is now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                               |
-| infohub/dpi/externaldisplay/json   |            | In          | Information on sign box          |                                                                                                                                                                                                      |
-| infohub/dpi/arriving/json          | Modified   | In          | Arriving                         | Public announcement of the stop; adds expiryTimestamp and zoneId field; createTimestamp was deleted in v. 1.1                                                                                        |
-| infohub/dpi/deviation/json         | Modified   | In          | Deviation                        | Multi-lingual, textual deviation messages. With references to stops/journal/lines etc.                                                                                                               |
-| infohub/dpi/announcement/json      | Modified   | In          | Other announcement               | Multi-lingual textual messages                                                                                                                                                                       |
-| infohub/dpi/audio/json             | **New**    | In          | Audio message                    | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                  |
-| infohub/dpi/c2/json                | **New**    | In          | DPI command and control messages | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                  |
-| *infohub/dpi/connections/json*     | *Planned*  | *In*        | *Information about connections*  | *Real-time data for connections before arrival at the stop*                                                                                                                                          |
-| *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | *Multimedia control*             | *Message that controls the multimedia surfaces on board*                                                                                                                                             |
+| Local topic                        | Change     | Direction   | Name                                                              | Comments                                                                                                                                                                                                  |
+|------------------------------------|------------|-------------|-------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| signon/json                        |            | Out         | [Start block](#start-block)                                       |                                                                                                                                                                                                           |
+| signoff/json                       |            | Out         | [Complete block](#complete-block)                                 |                                                                                                                                                                                                           |
+| avl/json                           |            | Out         | [Vehicle position](#vehicle-position)                             |                                                                                                                                                                                                           |
+| apc/+/json                         |            | Out         | [Passenger count](#passenger-count)                               | **"+"** is the placeholder for the door number                                                                                                                                                            |
+| stopsignal/json                    | **New**    | Out         | [Stop signal status](#stop-signal-status)                         | This signal does not exist in FMS and must be read directly from the electrical signal system on board                                                                                                    |
+| telemetry/+/json                   | **New**    | Out         | [Vehicle telemetry](#vehicle-telemetry)                           | **"+"** is the placeholder for an ID, such as PGN which is defined in the FMS standard; We specify which PGN or other telemetry data should be sent. **Used to be fmstoip but has now been generalized.** |
+| infohub/dpi/diagnostics/json       | **New**    | Out         | [Diagnostics for screens](#screen-diagnostics)                    | DPI diagnostics data to make sure the displays are set up correctly and are running as expected                                                                                                           |
+| tsp/json                           | **New**    | In          | [Signal prioritization](#signal-prioritization)                   | Message to be sent directly from the bus to facilitate signal priority at traffic lights                                                                                                                  |
+| madt/notification/json             |            | In          | [Message to driver](#madt-notification)                           | Notification messages to driver. Produced by Ruters backoffice and consumed by MADT device on-board the vehicle.                                                                                          |
+| infohub/dpi/journey/json           | Modified   | In          | [Vehicle journey](#vehicle-journey)                               | Coordinates for the stop are now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                              |
+| infohub/dpi/nextstop/json          |            | In          | [Next stop](#next-stop)                                           | stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                                                                         |
+| infohub/dpi/eta/json               | Modified   | In          | [Estimated arrivals](#eta)                                        | The text for the time to be displayed on the screen is now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                    |
+| infohub/dpi/externaldisplay/json   |            | In          | [Information on sign box](#information-for-sign-boxes)            |                                                                                                                                                                                                           |
+| infohub/dpi/arriving/json          | Modified   | In          | [Arriving](#arrival)                                              | Public announcement of the stop; adds expiryTimestamp and zoneId field; createTimestamp was deleted in v. 1.1                                                                                             |
+| infohub/dpi/deviation/json         | Modified   | In          | [Deviation](#deviation)                                           | Multi-lingual, textual deviation messages. With references to stops/journal/lines etc.                                                                                                                    |
+| infohub/dpi/announcement/json      | Modified   | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
+| infohub/dpi/audio/json             | **New**    | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
+| infohub/dpi/c2/json                | **New**    | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
+| *infohub/dpi/connections/json*     | *Planned*  | *In*        | *[Information about connections](#connections)*                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
+| *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | *[Multimedia control](#multimedia-control)*                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
 ## Description of messages
 
@@ -417,6 +417,81 @@ The message containing several PGNs is split up into several MQTT messages. SPNs
 | name  | string | optional                                     |
 | unit  | string |                                              |
 | value | any    |                                              |
+
+### Screen diagnostics
+
+| Field         | Value                                                     |
+|---------------|-----------------------------------------------------------|
+| Name          | Screen diagnostics                                        |
+| Local topic   | infohub/dpi/diagnostics/json                              |
+| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/dpi/diagnostics/json |
+| Schema        | diagnostics.json                                          |
+
+Report to PTA BO about a screen.
+
+It is expected that the DPI application itself will produce diagnostic messages.
+The payload is defined as an object with no structure to provide flexibility. 
+
+The types illustrated below are example of possible messages. The types are under discussion but will be generated entirely by the DPI application and consumed by the PTA BO.
+
+#### Example payload - STATUS
+```json
+{
+  "eventTimestamp": "2018-10-31T12:45:50Z",
+  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
+  "type": "STATUS",
+  "payload": {
+    "version": {
+      "application": "2018-10-03T12:45:50Z",
+      "media": "2018-10-05T12:45:50Z"
+    },
+    "display": {
+      "type": "1",
+      "res": {
+        "height": 360,
+        "width": 1080
+      }
+    },
+    "stats": {
+      "logEntries": {
+        "error": 0,
+        "warning": 14,
+        "info": 123
+      },
+      "lastLoaded": "2018-10-31T12:45:45Z",
+      "pingFreq": 3600,
+      "usedStorage": "124kb"
+    }
+  }
+}
+```
+
+#### Example payload - HEARTBEAT
+```json
+{
+  "eventTimestamp": "2018-10-31T12:45:50Z",
+  "type": "HEARTBEAT",
+  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1"
+}
+```
+
+#### Fields
+
+| Name             | Type              | Description                                                            |
+|------------------|-------------------|------------------------------------------------------------------------|
+| eventTimestamp   | string            | ISO 8601, UTC                                                          |
+| screenId         | string            | UUID produced and stored by the application per screen                 |
+| type             | string            | message type, enum DiagnosticType                                      |
+| payload          | dictionary of any | data with a blend possibly of standardized keys and PTA / PTO-specific |
+
+##### Enum DiagnosticType
+
+| Name             | Description                                                                               |
+|------------------|-------------------------------------------------------------------------------------------|
+| STATUS           | When the screen is turned on and the application application starts, this message is sent |
+| HEARTBEAT        | A regular message that the screen is alive; frequency every X period                      |
+
+Other types of messages may be defined later.
 
 ### Signal prioritization  
 
@@ -1032,81 +1107,6 @@ The payload is defined as an object with no structure to provide flexibility.
 | eventTimestamp   | string   | ISO 8601, UTC   |
 | type             | string   | message type    |
 | payload          | Object   |                 |
-
-### Screen diagnostics
-
-| Field         | Value                                                     |
-|---------------|-----------------------------------------------------------|
-| Name          | Screen diagnostics                                        |
-| Local topic   | infohub/dpi/diagnostics/json                              |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/dpi/diagnostics/json |
-| Schema        | diagnostics.json                                          |
-
-Report to PTA BO about a screen.
-
-It is expected that the DPI application itself will produce diagnostic messages.
-The payload is defined as an object with no structure to provide flexibility. 
-
-The types illustrated below are example of possible messages. The types are under discussion but will be generated entirely by the DPI application and consumed by the PTA BO.
-
-#### Example payload - STATUS
-```json
-{
-  "eventTimestamp": "2018-10-31T12:45:50Z",
-  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
-  "type": "STATUS",
-  "payload": {
-    "version": {
-      "application": "2018-10-03T12:45:50Z",
-      "media": "2018-10-05T12:45:50Z"
-    },
-    "display": {
-      "type": "1",
-      "res": {
-        "height": 360,
-        "width": 1080
-      }
-    },
-    "stats": {
-      "logEntries": {
-        "error": 0,
-        "warning": 14,
-        "info": 123
-      },
-      "lastLoaded": "2018-10-31T12:45:45Z",
-      "pingFreq": 3600,
-      "usedStorage": "124kb"
-    }
-  }
-}
-```
-
-#### Example payload - HEARTBEAT
-```json
-{
-  "eventTimestamp": "2018-10-31T12:45:50Z",
-  "type": "HEARTBEAT",
-  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1"
-}
-```
-
-#### Fields
-
-| Name             | Type              | Description                                                            |
-|------------------|-------------------|------------------------------------------------------------------------|
-| eventTimestamp   | string            | ISO 8601, UTC                                                          |
-| screenId         | string            | UUID produced and stored by the application per screen                 |
-| type             | string            | message type, enum DiagnosticType                                      |
-| payload          | dictionary of any | data with a blend possibly of standardized keys and PTA / PTO-specific |
-
-##### Enum DiagnosticType
-
-| Name             | Description                                                                               |
-|------------------|-------------------------------------------------------------------------------------------|
-| STATUS           | When the screen is turned on and the application application starts, this message is sent |
-| HEARTBEAT        | A regular message that the screen is alive; frequency every X period                      |
-
-Other types of messages may be defined later.
 
 ## Planned messages
 
