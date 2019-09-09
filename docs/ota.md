@@ -8,8 +8,6 @@ Ruters repositories.
 
 MQTT is used as the transport mechanism for all OTA messages. MQTT is a simple pub-sub based messaging protocol, that works on top of TCP/IP as well as on websockets. 
 
-?> This page is an update of an outdated OTA Messages wiki page that was based on version 1.0 of the requirements. Version 1.1 of the requirements introduced some changes and after the development process began, new needs were identified as documented here, partly for use in formulating a change order for the operators selected for routes in Romerike and the electric bus contract.
-
 ## Summary
 The summary refers to topics on board the buses. See below for mapping of the local topic to the bridged topic.
 Changes noted in status are based on a comparison with v1.1 of the OTA Messages document. Direction is in/out of the bus.
@@ -402,14 +400,14 @@ The message containing several PGNs is split up into several MQTT messages. SPNs
 
 #### Fields
 
-#### Telemetry
+##### Telemetry
 | Name           | Type      | Description                                     |
 |----------------|-----------|-------------------------------------------------|
 | eventTimestamp | string    | ISO 8601, UTC                                   |
 | id             | string    | eight-digit hex value of the telemetry provided |
 | payloads       | Payload[] | one or more payloads                            |
 
-#### Payload
+##### Payload
 | Name  | Type   | Description                                  |
 |-------|--------|----------------------------------------------|
 | subid | int    | subid such as SPN, if appropriate (optional) |
