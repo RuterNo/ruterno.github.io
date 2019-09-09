@@ -7,7 +7,6 @@ The messages are encoded as json payloads, and you can validate any payload by u
 Ruters repositories.  
 
 MQTT is used as the transport mechanism for all OTA messages. MQTT is a simple pub-sub based messaging protocol, that works on top of TCP/IP as well as on websockets. 
-Ruter has agreed with the operators to use only JSON in MQTT messages and not support Protobuf. The contents of the messages will therefore be defined by JSON schemas and these will be made available to the operators.
 
 ?> This page is an update of an outdated OTA Messages wiki page that was based on version 1.0 of the requirements. Version 1.1 of the requirements introduced some changes and after the development process began, new needs were identified as documented here, partly for use in formulating a change order for the operators selected for routes in Romerike and the electric bus contract.
 
@@ -35,8 +34,8 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | infohub/dpi/announcement/json      | Modified   | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
 | infohub/dpi/audio/json             | **New**    | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
 | infohub/dpi/c2/json                | **New**    | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
-| *infohub/dpi/connections/json*     | *Planned*  | *In*        | *[Information about connections](#connections)*                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
-| *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | *[Multimedia control](#multimedia-control)*                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
+| *infohub/dpi/connections/json*     | *Planned*  | *In*        | [*Information about connections*](#connections)                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
+| *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
 ## Description of messages
 
