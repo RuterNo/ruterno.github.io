@@ -453,7 +453,7 @@ The types illustrated below are example of possible messages.
     }
 }
 ```
-
+                                     |
 #### Example payload - HEARTBEAT
 ```json
 {
@@ -479,7 +479,21 @@ The types illustrated below are example of possible messages.
 | type             | string            | message type, enum DiagnosticType                                      |
 | payload          | dictionary of any | data with a blend possibly of standardized keys and PTA / PTO-specific |
 
+##### Payload fields 
+
+| Name             | Type              | Description                                                            |
+|------------------|-------------------|------------------------------------------------------------------------|
+| client.version   | string            | current version (semver) of the application.                           |
+| client.display   | string            | current screen id, between 1 and 4.                                    |
+| client.lastLoaded| string            | ISO 8601, UTC, timestamp of when the application was started           |
+| browser.protocol | string            | Protocol scheme of the URL, file:// or http://                         |
+| browser.userAgent| string            | String identifying which browser is being used, what version and on which operating system the client is running on. |     
+| logEntries.error | int               | Count of errors persisted in IndexedDB for the last 72 hours. | 
+| logEntries.warning | int             | Count of warnings persisted in IndexedDB for the last 72 hours. |
+| routeId            | string          | Route id for current journey (if any). |
+
 ##### Enum DiagnosticType
+
 
 | Name             | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
