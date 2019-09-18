@@ -530,7 +530,7 @@ Notification message sent to the MADT (Multi-Application Driver Terminal) device
 
 The text message may contain the "Line Feed" character (\n), indicating line breaks. 
 
-#### Example payload 1
+#### Example payload
 ```json
 {
   "eventTimestamp": "2019-08-14T11:03:21.000Z",
