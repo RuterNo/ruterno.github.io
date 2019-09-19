@@ -426,49 +426,47 @@ The message containing several PGNs is split up into several MQTT messages. SPNs
 
 Report to PTA BO about a screen.
 
-It is expected that the DPI application itself will produce diagnostic messages.
-The payload is defined as an object with no structure to provide flexibility. 
+The DPI application itself produces diagnostic messages.
+The payload is defined as an object with no pre-defined structure to provide flexibility. 
 
-The types illustrated below are example of possible messages. The types are under discussion but will be generated entirely by the DPI application and consumed by the PTA BO.
+The types illustrated below are example of possible messages. 
 
 #### Example payload - STATUS
 ```json
 {
-  "eventTimestamp": "2018-10-31T12:45:50Z",
-  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
-  "type": "STATUS",
-  "payload": {
-    "version": {
-      "application": "2018-10-03T12:45:50Z",
-      "media": "2018-10-05T12:45:50Z"
-    },
-    "display": {
-      "type": "1",
-      "res": {
-        "height": 360,
-        "width": 1080
-      }
-    },
-    "stats": {
+    "eventTimestamp": "2018-10-31T12:45:50Z",
+    "clientId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
+    "payload": {
+      "client": {
+        "version": "1.0.4",
+        "display": 1,
+        "lastLoaded": "2018-10-31T05:45:50Z"
+      },
+      "browser": {
+        "protocol": "file:",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+      },
       "logEntries": {
         "error": 0,
-        "warning": 14,
-        "info": 123
-      },
-      "lastLoaded": "2018-10-31T12:45:45Z",
-      "pingFreq": 3600,
-      "usedStorage": "124kb"
+        "warning": 5
+      }
     }
-  }
 }
 ```
-
+                                     |
 #### Example payload - HEARTBEAT
 ```json
 {
-  "eventTimestamp": "2018-10-31T12:45:50Z",
+  "eventTimestamp": "2019-06-27T09:10:59.198Z",
+  "clientId": "d9d902ed-fcba-4618-b62d-ffa5e19c59d3",
   "type": "HEARTBEAT",
-  "screenId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1"
+  "payload": {
+    "client": {
+      "version": "2019-06-25T07:01:48.214Z",
+      "display": "1"
+    },
+    "routeId": "RUT:Route:430-30"
+  }
 }
 ```
 
@@ -477,16 +475,30 @@ The types illustrated below are example of possible messages. The types are unde
 | Name             | Type              | Description                                                            |
 |------------------|-------------------|------------------------------------------------------------------------|
 | eventTimestamp   | string            | ISO 8601, UTC                                                          |
-| screenId         | string            | UUID produced and stored by the application per screen                 |
+| clientId         | string            | UUID produced and stored by the application per screen                 |
 | type             | string            | message type, enum DiagnosticType                                      |
 | payload          | dictionary of any | data with a blend possibly of standardized keys and PTA / PTO-specific |
 
+##### Payload fields 
+
+| Name             | Type              | Description                                                            |
+|------------------|-------------------|------------------------------------------------------------------------|
+| client.version   | string            | current version (semver) of the application.                           |
+| client.display   | string            | current screen id, between 1 and 4.                                    |
+| client.lastLoaded| string            | ISO 8601, UTC, timestamp of when the application was started           |
+| browser.protocol | string            | Protocol scheme of the URL, file:// or http://                         |
+| browser.userAgent| string            | String identifying which browser is being used, what version and on which operating system the client is running on. |     
+| logEntries.error | int               | Count of errors persisted in IndexedDB for the last 72 hours. | 
+| logEntries.warning | int             | Count of warnings persisted in IndexedDB for the last 72 hours. |
+| routeId            | string          | Route id for current journey (if any). |
+
 ##### Enum DiagnosticType
+
 
 | Name             | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
 | STATUS           | When the screen is turned on and the application application starts, this message is sent |
-| HEARTBEAT        | A regular message that the screen is alive; frequency every X period                      |
+| HEARTBEAT        | A regular message that the screen is alive; frequency every minute.                      |
 
 Other types of messages may be defined later.
 
