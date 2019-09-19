@@ -1,4 +1,4 @@
-# Trouble shooting client
+# Troubleshooting client
 
 ### Known situations and client fallbacks 
 Listed below are situations that may occur and how these situations are indicated in busmonitor application.
