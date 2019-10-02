@@ -11,6 +11,11 @@
 <body>
   <div id="app"></div>
   <script>
+    if(window.self !== window.top) {
+      document.body.classList.add("close");
+    }
+  </script>
+  <script>
     window.$docsify = {
       name: '',
       repo: '',
