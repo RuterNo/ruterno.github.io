@@ -35,6 +35,16 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | *infohub/dpi/connections/json*     | *Planned*  | *In*        | [*Information about connections*](#connections)                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
 | *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
+### Vehicle Id
+Wherever the placeholder &lt;vehicleid&gt; is used below in MQTT topics it should be understood that the Vehicle
+Identification Number (VIN) shall be substituted. A VIN is a world-wide standard, a unique identifier for all types of
+vehicles defined by ISO 3779 and is a 17-character string.
+
+### Sender and Recipient
+Wherever the placeholders &lt;sender&gt; or &lt;recipient&gt; are used below in MQTT topic it should be understood that
+the PTA-assigned PTO id (a string) shall be substituted.
+Operator names are added as needed and they must be lower case.
+
 ## Description of messages
 
 ### Start block
@@ -51,10 +61,10 @@ Notify PTA BO that the bus is starting a block.
 #### Example payload
 ```json
 {
-  "eventTimestamp": "2017-10-31T12:45:50Z",
-  "vehicleNumber": "12345",
-  "blockId": "1234:34",
-  "vehicleJourneyId": "35:ABC"
+   "eventTimestamp": "2019-05-04T15:03:10Z",
+   "vehicleNumber": "E2345678901234567",
+   "blockId": "3103",
+   "vehicleJourneyId": "294"
 }
 ```
 
@@ -63,7 +73,7 @@ Notify PTA BO that the bus is starting a block.
 | Name             | Type    | Description                   |
 |------------------|---------|-------------------------------|
 | eventTimestamp   | string  | ISO 8601, UTC                 |
-| vehicleNumber    | integer | same as for the bridged topic |
+| vehicleNumber    | integer | Same as the &lt;vehicleid&gt; in the topic, a VIN |
 | blockId          | string  | A series of journeys          |
 | vehicleJourneyId | string  | The actual journey started    |
 
@@ -91,7 +101,7 @@ The content of signoff is the same as signon and uses the same schema.
 |---------------|-----------------------------------------------------------|
 | Name          | Vehicle position                                          |
 | Local topic   | avl/json                                                  |
-| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleId&gt;/itxpt/ota/avl/json |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/avl/json |
 | Schema        | avl.json                                                  |
 
 Reporting of the bus's position, course and speed to PTA BO.
@@ -99,18 +109,19 @@ Reporting of the bus's position, course and speed to PTA BO.
 #### Example payload
 ```json
 {
-  "eventTimestamp": "2017-10-31T12:45:50Z",
-  "seqNumber": 0,
-  "latitude": 60.25255,
-  "longitude": 11.0567,
-  "heading": 0.5,
-  "speedOverGround": 34.5,
-  "signalQuality": "AGPS_QUALITY",
-  "numberOfSatellites": 4,
-  "gnssType": "GPS",
-  "gnssCoordinateSystem": "WGS84",
-  "deadReckoning": false,
-  "positionIsSimulated": false
+   "eventTimestamp":"2017-10-31T12:45:50Z",
+   "seqNumber":0,
+   "latitude":60.25255,
+   "longitude":11.0567,
+   "heading":0.5,
+   "speedOverGround":34.5,
+   "signalQuality":"AGPS",
+   "numberOfSatellites":4,
+   "gnssType":"GPS",
+   "gnssCoordinateSystem":"WGS84",
+   "deadReckoning":false,
+   "positionIsSimulated":false,
+   "horizontalDilutionOfPrecision":1
 }
 ```
 
@@ -130,17 +141,18 @@ Reporting of the bus's position, course and speed to PTA BO.
 | gnssCoordinateSystem | string  | enum GNSSCoordinateSystem                                           |
 | deadReckoning        | boolean |                                                                     |
 | positionIsSimulated  | boolean | true when a block is simulated                                      |
+| horizontalDilutionOfPrecision  | float | optional value for horizontal dilution of precision         |
 
 #### Enum SignalQuality
 
-| Name              | Description |
-|-------------------|-------------|
-| AGPS_QUALITY      |             |
-| DGPS_QUALITY      |             |
-| ESTIMATED_QUALITY |             |
-| GPS_QUALITY       |             |
-| NOT_VALID_QUALITY |             |
-| UNKNOWN_QUALITY   |             |
+| Name      | Description |
+|-----------|-------------|
+| AGPS      |             |
+| DGPS      |             |
+| ESTIMATED |             |
+| GPS       |             |
+| NOTVALID  |             |
+| UNKNOWN   |             |
 
 #### Enum GNSSType
 
@@ -152,18 +164,14 @@ Reporting of the bus's position, course and speed to PTA BO.
 | BEIDOU              |               |
 | IRNSS               |               |
 | OTHER               |               |
-| DEAD_RECKONING      |               |
-| MIXED_GNSS_TYPES    |               |
+| DEADRECKONING       |               |
+| MIXEDGNSSTYPES      |               |
 
 #### Enum GNSSCoordinateSystem
 
 | Name                  | Description   |
 |-----------------------|---------------|
 | WGS84                 |               |
-| AGPS                  |               |
-| DGPS                  |               |
-| ESTIMATED             |               |
-| GPS_COORDINATE_SYSTEM |               |
 
 
 ### Passenger count
@@ -172,7 +180,7 @@ Reporting of the bus's position, course and speed to PTA BO.
 |---------------|-----------------------------------------------------|
 | Name          | Passenger count                                     |
 | Local topic   | apc/&lt;doorid&gt;/json                                         |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/apc/&lt;doorid&gt;/json  |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/apc/&lt;doorid&gt;/json  |
 | Schema        | apc.json                                       |
 
 Report of passenger count per door to PTA BO.
@@ -247,10 +255,10 @@ Report of passenger count per door to PTA BO.
 |---------------|------------------------------------------------------|
 | Name          | Stop signal status                                   |
 | Local topic   | stopsignal/json                                      |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/stopsignal/json |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/stopsignal/json |
 | Schema        | stopsignal.json                                      |
 
-Stop signal status when changed by using stop button.
+This message should be produced whenever the stop signal is turned on or off.
 
 #### Example payload
 ```json
@@ -273,7 +281,7 @@ Stop signal status when changed by using stop button.
 |---------------|----------------------------------------------------------|
 | Name          | Vehicle telemetry                                        |
 | Local topic   | telemetry/&lt;id&gt;/json                                      |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/telemetry/&lt;id&gt;/json |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/telemetry/&lt;id&gt;/json |
 | Schema        | telemetry.json                                           |
 
 Vehicle telemetry from systems on the bus.
@@ -299,6 +307,8 @@ Source identifiers will be:
 
 Therefore all FMS PGNs become "0000" + 4-digit hex PGN.
 
+?> Learn more about the telemetry concept in [this wiki article](https://ruter.atlassian.net/wiki/spaces/TAAS/pages/106004500/Telemetry+concept).
+
 #### FMS
 Each of the available data points is defined with a Parameter Group Number (PGN) with fields defined by Suspect Parameter Number (SPN).
 
@@ -314,49 +324,6 @@ This is the list of required PGNs. It should be possible to expand this over tim
 | DC1  | Door Control 1                   | FE4E | 3411 Status 2 of doors <br> 1820 Ramp/Wheel chairlift <br> 1821 Position of doors   | Doors open / closed  | 0000FE4E | telemetry/0000fe4e/json |
 | DC2  | Door Control 2                   | FDA5 | XXXX Lock Status Door N <br> XXXX Enable Status Door N <br> XXXX Open Status Door N | Alternative to DC1?  | 0000FDA5 | telemetry/0000fda5/json |
 | VDHR | High Resolution Vehicle Distance | FEC1 | 917 High resolution total vehicle distance                                | Supplements position | 0000FEC1 | telemetry/0000fec1/json |
-
-#### ITxPT
-These PGNs must be subscribed to when the buses are started (unless the subscription is persistent) through the AddPGN call:
-```xml
-<PGNReq>FE4E</PGNReq>
-<PGNReq>FDA5</PGNReq>
-<PGNReq>FEC1</PGNReq>
-```
-A service must be implemented by the operator's vendor that listens the UDP messages and converts them to MQTT messages.
-
-#### XML format (source)
-The message for all subscribed PGNs is sent to UDP as XML.
-```xml
-<FMStoIPDelivery>
-    <FMStoIP FMSVersion="03">
-        <frame Status="OK">
-            <PGN>FEF1</PGN>
-            <data>F35237C403501FFF</data>
-            <relativetime>5000</relativetime>
-            <SPN id="84">
-                <name>Wheel-Based Vehicle Speed</name>
-                <unit>km/h</unit>
-                <value>55.3</value>
-            </SPN>
-            <SPN id="597">
-                <name>Brake Switch</name>
-                <value>released</value>
-            </SPN>
-        </frame>
-        <frame Status="OK">
-            <PGN>F004</PGN>
-            <data>F35237C403501FFF</data>
-            <relativetime>5000</relativetime>
-            <SPN id="190">
-                <name>Engine Speed</name>
-                <unit>rpm</unit>
-                <value>854</value>
-            </SPN>
-        </frame>
-    </FMStoIP>
-</FMStoIPDelivery>
-```
-PGN FEF1 and F004 shown here are the examples found in the ITxPT spec.
 
 #### JSON format (MQTT)
 The message containing several PGNs is split up into several MQTT messages. SPNs are mapped as subids.
@@ -421,7 +388,7 @@ The message containing several PGNs is split up into several MQTT messages. SPNs
 |---------------|-----------------------------------------------------------|
 | Name          | Screen diagnostics                                        |
 | Local topic   | infohub/dpi/diagnostics/json                              |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/dpi/diagnostics/json |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/dpi/diagnostics/json |
 | Schema        | diagnostics.json                                          |
 
 Report to PTA BO about a screen.
@@ -429,36 +396,46 @@ Report to PTA BO about a screen.
 The DPI application itself produces diagnostic messages.
 The payload is defined as an object with no pre-defined structure to provide flexibility. 
 
-The types illustrated below are example of possible messages. 
+The types illustrated below are example of possible messages.
+The types are under discussion but will be generated entirely by the DPI application and consumed by the PTA BO.
 
 #### Example payload - STATUS
 ```json
 {
-    "eventTimestamp": "2018-10-31T12:45:50Z",
-    "clientId": "ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
-    "payload": {
-      "client": {
-        "version": "1.0.4",
-        "display": 1,
-        "lastLoaded": "2018-10-31T05:45:50Z"
+   "eventTimestamp":"2018-10-31T12:45:50Z",
+   "screenId":"ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
+   "type":"STATUS",
+   "payload":{
+      "version":{
+         "application":"2018-10-03T12:45:50Z",
+         "media":"2018-10-05T12:45:50Z"
       },
-      "browser": {
-        "protocol": "file:",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+      "display":{
+         "type":"1",
+         "res":{
+            "height":360,
+            "width":1080
+         }
       },
-      "logEntries": {
-        "error": 0,
-        "warning": 5
+      "stats":{
+         "logEntries":{
+            "error":0,
+            "warning":14,
+            "info":123
+         },
+         "lastLoaded":"2018-10-31T12:45:45Z",
+         "pingFreq":3600,
+         "usedStorage":"124kb"
       }
-    }
+   }
 }
 ```
-                                     |
+
 #### Example payload - HEARTBEAT
 ```json
 {
   "eventTimestamp": "2019-06-27T09:10:59.198Z",
-  "clientId": "d9d902ed-fcba-4618-b62d-ffa5e19c59d3",
+  "screenId": "d9d902ed-fcba-4618-b62d-ffa5e19c59d3",
   "type": "HEARTBEAT",
   "payload": {
     "client": {
@@ -475,22 +452,9 @@ The types illustrated below are example of possible messages.
 | Name             | Type              | Description                                                            |
 |------------------|-------------------|------------------------------------------------------------------------|
 | eventTimestamp   | string            | ISO 8601, UTC                                                          |
-| clientId         | string            | UUID produced and stored by the application per screen                 |
+| screenId         | string            | UUID produced and stored by the application per screen                 |
 | type             | string            | message type, enum DiagnosticType                                      |
 | payload          | dictionary of any | data with a blend possibly of standardized keys and PTA / PTO-specific |
-
-##### Payload fields 
-
-| Name             | Type              | Description                                                            |
-|------------------|-------------------|------------------------------------------------------------------------|
-| client.version   | string            | current version (semver) of the application.                           |
-| client.display   | string            | current screen id, between 1 and 4.                                    |
-| client.lastLoaded| string            | ISO 8601, UTC, timestamp of when the application was started           |
-| browser.protocol | string            | Protocol scheme of the URL, file:// or http://                         |
-| browser.userAgent| string            | String identifying which browser is being used, what version and on which operating system the client is running on. |     
-| logEntries.error | int               | Count of errors persisted in IndexedDB for the last 72 hours. | 
-| logEntries.warning | int             | Count of warnings persisted in IndexedDB for the last 72 hours. |
-| routeId            | string          | Route id for current journey (if any). |
 
 ##### Enum DiagnosticType
 
@@ -508,7 +472,7 @@ Other types of messages may be defined later.
 |---------------|--------------------------------------------------|
 | Name          | Signal prioritization                            |
 | Local topic   | tsp/json                                         |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/tsp/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/tsp/json |
 | Schema        | tsp.json                                         |
 
 The message to be sent to VHF to ensure that the bus is prioritized at the traffic lights.
@@ -518,7 +482,7 @@ This message is generated by Ruter when approaching an intersection or, when a s
 ```json
 {
   "eventTimestamp": "2017-10-31T08:38:02.749Z",
-  "message": ""
+  "message": "000000FFFFFFF"
 }
 ```
 
@@ -533,9 +497,9 @@ This message is generated by Ruter when approaching an intersection or, when a s
 
 | Field         | Value                                                           |
 |---------------|-----------------------------------------------------------------|
-| Name          | MADT notification                                               |
+| Name          | Message to driver                                               |
 | Local topic   | madt/notification/json                                          |
-| Bridged topic | &lt;operatorId&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/madt/notification/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/madt/notification/json |
 | Schema        | notification.json                                               |
 
 Notification message sent to the MADT (Multi-Application Driver Terminal) device inside the bus. To be used to inform the bus driver from the Ruter backoffice.
@@ -554,20 +518,19 @@ The text message may contain the "Line Feed" character (\n), indicating line bre
 
 #### Fields
 ##### Header
-| Name            | Type           |  Description                                              |
-|-----------------|----------------|-----------------------------------------------------------|
-| eventTimestamp  | string         | ISO 8601, UTC                                             |
-| urgency         | string         | Notification importance. Based on Android notification importance. Ref: [developer.android.com](https://developer.android.com/guide/topics/ui/notifiers/notifications#importance) |
-| subject         | string         | Subject of the message                                    |
-| content         | string         | Content of the message                                    |
+| Name            | Type           |  Description  |
+|-----------------|----------------|---------------|
+| eventTimestamp  | string         | ISO 8601, UTC |
+| urgency         | string         | enum Urgency  |
+| subject         | string         |               |
+| content         | string         |               |
 
 ##### Enum Urgency
-| Name      | Description                                           |
-|-----------|-------------------------------------------------------|
-| URGENT    | Makes a sound and appears as a heads-up notification. |
-| HIGH      | Makes a sound.                                        |
-| MEDIUM    | No sound.                                             |
-| LOW       | No sound and does not appear in the status bar.       |
+| Name      | Description |
+|-----------|-------------|
+| LOW       |             |
+| MEDIUM    |             |
+| HIGH      |             |
 
 ### Vehicle journey
 
@@ -575,7 +538,7 @@ The text message may contain the "Line Feed" character (\n), indicating line bre
 |---------------|----------------------------------------------------------|
 | Name          | Vehicle journey                                          |
 | Local topic   | infohub/dpi/journey/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/journey/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/journey/json |
 | Schema        | journey.json                                             |
 
 The stops included in the bus route, with connections to other lines.
@@ -693,7 +656,7 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 |---------------|-----------------------------------------------------------|
 | Name          | Next stop                                                 |
 | Local topic   | infohub/dpi/nextstop/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/nextstop/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/nextstop/json |
 | Schema        | nextstop.json                                             |
 
 Next stop on the bus's route after leaving a stop.
@@ -720,7 +683,7 @@ StopPointRef was replaced by StopPlaceId in v. 1.1.
 |---------------|------------------------------------------------------|
 | Name          | ETA                                                  |
 | Local topic   | infohub/dpi/eta/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/eta/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/eta/json |
 | Schema        | eta.json                                             |
 
 Estimated arrival at the remaining stops.
@@ -765,7 +728,7 @@ StopPointRef was replaced by StopPlaceId in v. 1.1. The field "text" was added t
 |---------------|------------------------------------------------------------------|
 | Name          | Information for sign boxes                                       |
 | Local topic   | infohub/dpi/externaldisplay/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/externaldisplay/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/externaldisplay/json |
 | Schema        | externaldisplay.json                                             |
 
 Message to display on signposts. Usually line number (publicCode) and routeName, with support for alternative message. 
@@ -773,21 +736,21 @@ Message to display on signposts. Usually line number (publicCode) and routeName,
 #### Example payload
 ```json
 {
-  "eventTimestamp": "2017-10-31T08:38:02.749Z",
-  "publicCode": "31",
-  "destination": "Lorem ipsum",
-  "alternativeMessage": "Duis aute irure dolor"
+   "eventTimestamp": "2017-10-31T08:38:02.749Z",
+   "publicCode": "31",
+   "destination": "Bygdøy",
+   "alternativeMessage": "Via Rådhusplassen"
 }
 ```
 
 #### Fields
 
-| Name               | Type   | Description                                    |
-|--------------------|--------|------------------------------------------------|
-| eventTimestamp     | string | ISO 8601, UTC                                  |
-| publicCode         | string | Publicly known bus, tram or subway line number |
-| destination        | string | Usually the final stop                         |
-| alternativeMessage | string | The use of this field must be clarified        |
+| Name               | Type   | Description                                                                        |
+|--------------------|--------|------------------------------------------------------------------------------------|
+| eventTimestamp     | string | ISO 8601, UTC                                                                      |
+| publicCode         | string | Publicly known bus, tram or subway line number                                     |
+| destination        | string | Final stop or explicitly set destination text                                      |
+| alternativeMessage | string | Second line of sign used for via or other supplementary information when available |
 
 ### Arrival
 
@@ -795,7 +758,7 @@ Message to display on signposts. Usually line number (publicCode) and routeName,
 |---------------|-----------------------------------------------------------|
 | Name          | Arrival                                                   |
 | Local topic   | infohub/dpi/arriving/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/arriving/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/arriving/json |
 | Schema        | arriving.json                                             |
 
 Notice to passengers that the bus is approaching a stop.
@@ -828,7 +791,7 @@ The field expiryTimestamp has been added to to prevent delayed messages from bei
 | Name             | Type                              | Description              |
 |------------------|-----------------------------------|--------------------------|
 | eventTimestamp   | string                            | ISO 8601, UTC            |
-| expiryTimestamp  | string                            | ISO 8601, UTC            |
+| expiryTimestamp  | string                            | ISO 8601, UTC, audio should not be played after this time |
 | ref              | string                            | reference to StopPlaceId |
 | zoneId           | string                            | Id of payment zone.      |
 | message          | dictionary of MultilingualMessage |                          |
@@ -846,7 +809,7 @@ The field expiryTimestamp has been added to to prevent delayed messages from bei
 |---------------|------------------------------------------------------------|
 | Name          | Deviation                                                  |
 | Local topic   | infohub/dpi/deviation/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/deviation/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/deviation/json |
 | Schema        | deviation.json                                             |
 
 Notice to passengers of a deviation.
@@ -899,7 +862,7 @@ Responsibility for the use of the ref field lies entirely with the DPI applicati
 |---------------|---------------------------------------------------------------|
 | Name          | Announcement                                                  |
 | Local topic   | infohub/dpi/announcement/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/announcement/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/announcement/json |
 | Schema        | announcement.json                                             |
 
 Announcement to the passengers (ad hoc).
@@ -934,8 +897,8 @@ Message contains a reference to the scope of the message, if applicable. Typical
 |------------------|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | eventTimestamp   | string                            | ISO 8601, UTC                                                                                                                 |
 | expiryTimestamp  | string                            | ISO 8601, UTC                                                                                                                 |
-| type             | string                            | Type melding: kan styre visning i DPI                                                                                         |
-| ref              | string or string[]                | Liste av id'er som f.eks. StopPlace, Line, Route, VehicleJourney. brukes til å knytte avvik til bestemte scopes, ikke påkrevd |
+| type             | string                            | Message type, may affect DPI display                                                                                          |
+| ref              | string or string[]                | Ids of type StopPlace, Line, Route, VehicleJourney, etc. Used to associate deviations with specific scopes, optional           |
 | message          | dictionary of MultilingualMessage | Key is ISO 639-1 language code.                                                                                               |
 
 ##### MultilingualMessage
@@ -951,12 +914,12 @@ Message contains a reference to the scope of the message, if applicable. Typical
 |---------------|---------------------------------------------------------|
 | Name          | Audio message                                           |
 | Local topic   | infohub/dpi/audio/json                                  |
-| Bridged topic | &lt;operatorId&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/audio/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/audio/json |
 | Schema        | audio.json                                              |
 
 Topic used exclusively to transmit audio messages to be played by the speaker system. The audio messages may contain an array of sound bites, that are to be played in the sequence they have been received.  
 
-#### Example payload 1
+#### Example payload
 ```json
 {
      "eventTimestamp": "2017-10-31T08:38:02.749Z",
@@ -986,29 +949,6 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
    }
 ```
 
-#### Example payload 2
-```json
-{
-       "eventTimestamp": "2019-07-29T12:52:08.461Z",
-       "expiryTimestamp": "2019-04-25T07:24:24.431Z",
-       "ref": "NSR:StopPlace:4384",
-       "type": "ARRIVING",
-       "value": [
-           {
-               "content": "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VrhJvCIFfJ92NYFdcYZrCiYGICFMzMzL/DXKwCZj2/oVYzH+3VWFS+rsFJrDqrxmYMKP+qpRtc1jVSCiY3GYMq7Nr7GokvoC331VeqAiYGaszUmbVtV4zH8b+hQwpuNS2Zj6pfqpUKq+pBhTM2z/+1LE7ANLcIMOR4RwyX8vYYWFjRgYCagAtBKMoZUBopFVP/p/0VEChgoIGEDggQMEDRSHJ////oioqKn/9f///ymKYGCBggYUMFBAwgcgXFSJmsVFRUUFm/+oGUxBTUUzLjk5LjVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7UsTsAkvVmQwHrEjBcJmhoFYMWVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//tSxOyBDGmo/gEEYAETKFKcIApQVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=",
-               "encoding": "MP3",
-               "speaker": "PASSENGERS",
-               "volume": 70
-           },
-           {
-               "content": "SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU3LjcxLjEwMAAAAAAAAAAAAAAA//tQwAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAA1AAAsEwAJDg4SEhcXHBwhISUlKiovNDQ4OD09QkJHR0tLUFBVVVpeXmNjaGhtbXFxdnZ7e39/hImJjo6SkpeXnJyhoaWlqqqvtLS4uL29wsLHx8vL0NDV1dre3uPj6Ojt7fHx9vb7+/8AAAAATGF2YzU3Ljg5AAAAAAAAAAAAAAAAJAOvAAAAAAAALBN9yN/PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/7UMQAAAcMNSBHvMBBNo3k5ZeYoCn7c6gCwXoCWFeowGnGtBAhl7ntsPJp2nKAgD/JVOICf6fLn9ufvLvnPthiQ/wxD/R/z/l/+UcDgDXQrVKB9SICjkHbmrIu84ym5uM5uKVbOVUKpwGGQLGIUYPu4pBIx+Y37Z4yb8LzKUoDqJjXHQOpdamMm4IL3WN32vZT7e9rLcl6+7/tAm9FBWUPkDQFH/yQCFi+j8aR5A+EzRZXDE3TqIDxU0mOi0iemuMxOH0ihMtJDh4gZLyS3Dv/+1LEGoAKvEMlLWGAQVGR5BW2DPhoAQxNq3LrYpTwqKaj9WNWPQxhthl62czo2OqvzXV17NQOAkA7AiEZMEoJw4CQkrxokoSjylD1FAST08RskNNc55BOrLM09f/qTQZIZmhe5vdsmIkMvLrTHWNUsVUm8XgbQuO5tWKuL+p9p7y317mqu+q/TooVAEikRSajiRB0Br0ARzrC4OQRTDtAcjkAlsKUMjCFRlSigLR6mHK3JQiDa8M/df3GdHwz99pG22kKDBMLnE2pLhokCITMjP/7UsQjAAskgyussMPBZBRkZaYMeACQyGLg+wm5FzUin5fN/R3///QALYCpQAfcWPIzFF4HBmCwDQ/EwxHhwjvtjkNYdmRVcQD84Y8GL6ZCwqYMrwDXd/l/s6ef+mThOG0WmaYUEQTE7oeeQx1DFxVe0Ve4virXMqehC/pf+zUN9aoG7oJlmg7oyXplF2ljxRYzOw4Rk5JwVBYgD1JIExTabz5+dT0hA5+TxUo+Cuv3ytMy4k+mk7v6/Myp+Un7zX8vz6yHcy2/NyMyylJspyoa//tSxCeAC10nJy0kZ4FWjiRhhg0o5qCKAzIeZynez//QASBEJC0EAAFaoJDDP22k8BPqHY1B4pX4YKm3i+wZiOPhKM4tvbjDNECL0oqmIQnsQWOIEiCEEpJtAaRwAeTFtBppH1xiae9Snt676f7/9fLI1LqnkpoCAUFHkQzpLtAAEOvfKWCu2rNBmVh9LPrvEhEZoSpov+WChatG21Fy+YqAIBQABWHcPRNJyVTU9mFiiBIO5oeb4h6rg+JbkWm/uOSb5BjQu9k3Us/TdOP9bJ3/+1LELQAMEMUlLDBnwYgQZKGXmLhf/Kf/StSQ6+AKQ9Rkfh1EaBTWSqOUt6Jgqo9S+P1wyJ5PtkOkyaeoaKP3Ub9/IdQGmkOszUu3ORR95/nx5K8JkzFAwXDNApUpDENUYOrTwemHAINPOC8MlRl1Wvs107r/U5v75MMLUNoAmJsAA3CpzDDxqfENtaa860tadA7+Y0tG90TeCHDcoJsZillpVC0mxoSEHnVe+2zwkoyGstz/p0Lm4pkjUsStDc84bcU9bE7PQ4Hr8mmfSKBsWP/7UsQpgAyQwyeMrG+B2x7kFaSh8DhaVdXijUmU7c5ijrhXejq+gPAgHYHlwTDsTIgWTtRSicR35l7npcB+oi/Th0s6CoaEIJExLKcpCtlGCLrSqFzSOzmQn0Ot+cvaUqc3BQFTZBt8rLt3M9T0nEILwtQg4R8Yj1w5EulNaRSxqEpQ4OB2+Bp8WYlufJ3H3E2vv8dc4l7XS/CijAcqAKNhAI9AqaYYi+Z/+Ej0+GUtvH4y8UJhoABl6QLQfydJBWRU1yqE2FW927i3kaZgChHU//tSxBmADJz7KY0kq8H5Hyg1ozZaoreUsEa6OZS3o519l970P5ojn3sc4HXK6VFlHx5hofEw+SxJjfgdDKv1V9HuZfV5GhBIibaRRdjTjJnJiQZrGhgoQQkUrB0JdD+LDtDL6F6GFpXvBJnLkFibvww5EOUkE/nsmFnEHe73+7EtEe73sSibGB4zDuUjAuJIsi+upWr/XpXWkurdTLlxN3TSRTdbrWiEkGAQHgSE/Lh+UyY9BUQhE+J3FDwFEI898BGH7/VVEg1QAtPMDAUxLZj/+1LEBYALmPM+ziTywXKearWjFirDYgMIDcQg5Vyx2TLxXHDqbb70rN6KO0VA1y9AUtrNcMEo9wTAtEgJjrnwMiZiZcQAhGE7h6zStUnnNVNv//SZpv7eqSD0t2OMQaBwPr////+wgNJVpJS1pyNXgsRw4daKxSDlYc47FNvBaxlkN1p2Amt1Ad0i4ODydU2x3fvOdnUed6bty/CdF0UaIX2s7fp/OLK2jvV/6Ri7t7Iqhg0VE+i//9OgJVHbXF8EV3XKAAYcABUvZVaZ0FGie//7UsQGgAvA90OtoG+Bep6odbSJ6CfY4CkyzOJFN42BvcWZPZGn8kFpZAWOEGKGuw9CVOfx8Jax7nJvf8XRD0mIjJXkkR03RLw/+q1iltVuf/zI2h//LgYCKln+RFUJ/Zce8X+xCgAV5EQBJGnQoy6JrfK3eKkyTeSN63Zmqy1t6kjNbsFqISQxLxSjCMzZMIMm25KG7dU2ZPxbh6hDsZqKFOQhLne637N7IORX87vT/beemymDDlBQLn4QY9kAvvqWTatdAJ+AH2/sO8bK0+DI//tSxAYAC7iDTy0kxMloGGmZt5V4EsBIDz0hXqAC0A+3m/LRKwQfjl2vQBMk7KIfSsQV3ts/+XD+DzB5gPZZ+B+f/+h9v///92/TW2fIwJyDgMIPajAcAukaRyM6P2BI5Cyp7rf/7A4ACDLdTsMPiDghiEmTgxMKQqCoXTP3HbkPfvY9JK5rH9LxGZZWyZnuyOa+8Oweh4QgsEXMQ/TvUblTPz+n0Xff9Pvs4iJKLrQhAIKf+4o34ncj8n1/R8PrsYAG42wAm23Iy1pCsxR2qh3/+1LECAAL5XNnrBjtUYSe7L2DCiDfLsTb7FsbfT8GjuB5wLWMOpvxec/cNzASdJy9HCSQCccFnzD029f8/zKup4bFp8uzk0Vb/f5D7aqNz6zz/fRv/6Ptv929Ft/VDx8mMr/2yACbROIAB2Wuz3slg8nLXKq4fwgO1Uii/qjkSKs6kO5r+06XeuyMWZt1zJeEWPG1LMCZ8/WUU0t2qZuhUbRU+CdH9b2K3a7OhWqk6kIUMGPBdyD0voXxMpb/0o1sBYHmAFWgGu7NkKRuWh1APv/7UsQFgAutfW+nmFEZYSSt9PGWGkd4zdl9I/Q8WPKOj3Nfa4PPSnSsG858udIODotn+/PkDcGVxDzX/os5v//f9XOCoFflJ//U7/VEUgU6hAPdQjQoZ0VEWCGr/r//2t+zKqKji3TwBRy2IgyOORDgXYPV7QQYxqI/J/xXBQTt5vRsMsFXkgx2q4lAC02ORHC0lMVlv8XO/6fJ6puyxMwIJKjL2p76oijHS3UyDGYslep6n20jXHbN//2BMLHAgmAtbNEAZEQHonA09ILUBCKx//tSxAiADDz3d6YFkTF6rm509gj6TIuEL0jvUdxzAQHYUC089mZBJqAvy+Wrl6dGiV0eZKRfK5oRxaLgOgSBEVJoUh2YIywbokBG6uW2hn/61bVzcpHWa23N3JmkWFv//+r3pMwrAXbd60nY1JYYsxc9E6KUvhiqwEmpPQDC5yWmIxJQH9gttu1mBlAZ3bOjFIcGYQAkJQT4M9reT+1JyfvLM6GZ6f/t/uQEMMd2QW/pQtaMRwtE///+v1SrOFEIRKN9gBoABR7MEFMArUg6U8n/+1LEBgALqX1brCBLiXwmrLzzCXwcI6RWFZfRTOUbg5QswLSSqGHtVQ0+tDxqHTovalhC7kUtre/+rfpp9J3IWsjnR7f9lN/lK5STms//+QrQ5XI3//8qn0ZmvElPBCgGN/PuuFaAAGXmbpW5kSVsDtAVDQB5KtNZO6ilceFFBV6luWr4hudkqMxq+u2/RZlcvJZd51qc///110UxmPNVRjO16+ywrX/oGVSSyaKX/zzIHOIEC2/+KkhcqIgdAIm1uWFEBiowNGd4d3iVaBU4Cv/7UsQFgAuQxXPmLHaxWCDp0PYN+QtkiLx2qcnpdJr5jqwqFhfXe7NaW0zV/QFuvQ/XOrd1vv4nHYwAxqY1qiDGwdBUPosQHSO+7nD59tO/9Rg39bfscKkA8S+5QMiYZ/+58WJiDrAAmlbSJAHQMUvoP1UpfUabwPiaHaJtt73Z3P+cyDKWzIPejax1/ZSrn3itpMp9aWasLSaQjv9TXfj3p2c/fIk6neEfPzNJoEREc/7DLOG714WpjacfqhAnZph4ekBImVXjdJq4viplU10D//tSxAoACaiLWeewYsFJkWi88wlwwpqFlY9TGjoUeUOUYrf4wNoboGFM0gpjY82paAwTgqJTwVDpa3SJaIc8yReZnb+euoV2fzykoWliwESZ4d2foFspgYyQLi8N9gQDtEq9+hukGMkF2hoKqk0Oh7QFjDZJItTzObO4USj5hTt7SyghQwXak7rLXIYRBXGBUJ+gsyCwlTonl4l4lLPWW1UAC4VRJAfcIGDWZQjEQT+pYRYdy4T3RgeaoFyXlkJTi9OlLHNCYr9zP36SFeHSeMb/+1LEGAAKOJ0vLLDGwUicJOG2COiXycrGrtO6b+vV48rGjTLzSKi8AsuvD0HaE3PYgVZqJf+gAE0AIAZQW0NlLAgGoQsHllXGFKsljuW31q4dSeoILQ5GNHVYGUadSmDqQ2zlVi4sLE6MFnZXcq83U9qMaDLwZre9O+lDHpHKlAVU+yrSr/36FBqIMIBwQyIw9QlUwQOLra5DjDqk02YAGIjAU0QeBwgcf8MhRqKoMr/CJwSjTwZUtgQm07zvHRHOolVCO7ipB82tB04pp+8V3P/7UsQkAApYqybNpGrBThOltYYJOLvT9s9V/+/RR7e8AFxsoRokpAAPCuy0SaYlty3jjzkQgnnYggPbKxLS6ngOz12ItVy/NKELfoZrr3i3Lenox7lLOh9m00+LWgqMAYotaAZLhy5JQN2tiPexFlif6FpqIC21jcbKIAAIcMcGAeBqpcYUR6XpVUkW1tdqxVIESwpXQLKby8nKmYpN8ilaynHsJFEhTSitiAieDM6fMPjCZkOC1yz4hKLneIHd5+2Tgd4HHmNabHZJXbbZI3DK//tSxC6ACohhN7TzACJgpS63HvACrZYrWIzLbUKKOMkGdRns2MqpgRBVDNjwHUcOEqE9PR5BFvL0LjLaDHc4EQ+EQY5Wau4O62iRLgNoGkPSK6fnjxPreKx4+ArwbwKkYxbk/u1q1///+2R61Q7SsEDW/jfzjUS//vNClewI75hhb99Y/+o+Na/197w3M7gwyMeqsEjOQNrcQ/wREbiAEGH3Hl01e2/++jYCqVpucAwA4wWyxp9X4Kwus9UTiNxZ17ua3acnPF06+S1vrGmS9y//+1LEFgAKWJFhvMMAAUuQaq2WGNBfw7Y2zSFFMwkHCQnBYJgyG5mcWtxFJxZWxZ4PFXxa3M39mz0eOFQE5LZCGUiQRmzSa4Ka65013YGFBIuck9WGIHFJO1R7f/sgEZuf9/jFguPiWbW5JS3btRZyQdEolFDwaYRtTQ8IGPQ3pEpYy4NBwXQz0JVbDCZkmgBSXa2AIwAJB4jNAChyonKWJKgUNAE6nZ+5G6CTJAA+ats/L0pAt7HrtP02MhYIEHdCJ6au/R//Tr9Pk2//t++Og//7UsQhAAow8VesmE1BZw7tNPMlKsBsLgxX6P9zRv/TqUtnPLAAbV1bTsRStjtCYKkWqEg+dukJApaAtCOc+ayLNT60AUmJTEWrQrFVg0wGQ0mZkzXttiWsnhiUfuqDy4ZEj3/73AUKiyEguQf1/0i6TvKBRo38VQ1iS4sKh+oAAp7ZkHBgDUyNg2UEQsBSHZT0xdL2zw2eO4MuI3dj2zxyq5SMimdVMiCr6uK6OlDv//8ihvZzDNL//VVVVOJIIQMnGBNIrbQ1qPyIhT9Zj/+R//tSxCkACkDzV60kSIFHGCr9lIzYAAADR4ZEDsgDX9JJDeBT0NweIJU4AfhC2CplWlSWCTfNrw9v43c911roZf+1RlQ1pNUZWdrtY1/8v7lDIULG2v3OWZOiU7Fz3/d/WV/7NqJmMgADJdM3bWnBFUtgOW7xElfer70miNFHYd+HMaoyLYWpNm/VUHnlVqxBYAKNjNdqrd9HKm6v10XOriu3//69DPm61jTkfZv//3R3aIhY5raAAld9s5c0CRH0jzOJ+E4Y22dtKkIZw4khktr/+1LENQAJ8UFfrIyvUVYoLHawcAZ3qsiDBxc0sQHDTD5h9ojox7mHHqYcYeadah10NOMLLMub//aktItf9f0+i539jx8aoY+v//9foyDd6gAm9vbddbNbvZI25GAhFFFsEAjgy580gIqma3o9Z+F+R154BY84Z0lSbzBpJgT1rLFyaWljLLmqUgTgTB3k+IthYyqx7HYN5uTOP6gsLzxo8bwdgcO1L2m69y/Ycu/dBiyFUP9/uZ/b/2OlkTFJQoq6P5dG+GXWfZn3k1cdBYTx2P/7UsRAgBGtP2W5hYARjRDrf7LABGhPNGG///BAHCN5kwAABs8KsSSRECXB0w5gUHQwi48Fp9pbdikHQHL4hFInVfZxt9h0J0AJy0EjIloxwSgMJoCwjDgdE5bOEZw6dvLKr8XwLIX2HIV8L7DgLiAoTY10NJ9Ho9l+AlrcbV/0NGD//2UAFt1ogEptus4PQWOAerw59sUaI/hSP1MhirIWinCHjJTnw0cXBGaamiPEu6Me12sen//X59nOin699p9xp1kWhXcxLkIORCKqKqKv//tSxCYAC0VjY6eMT1FiHqo1lgk4/9siofpVwY40WE//gQuAAm3oAAmwhGrkmgns0oaydNxq8JwJuNoT1Zu1eK0Pfed/OZN6pi4s+gUrEcOvgwokiNdSiUD/gnt///6j9v+vRakVHyiiiIHmigeAp4K5v/QxhDcKnf/VWgADU1h0EAvtpeHiDCF0qX9LRwONNoHOHopSTIWcZjRn7gISCUaUDABQQf7Z1zyOiRQiEif2EiBEAFYqP5VKJ/97DD/3N+hNx/TY1RKiOgQvDBsTgQL/+1LEKoAK2I9Z7BhlwWWUq/T2GHg3IAk3/9RAXgk84QKMYQTGRbLZ7Z4vpbxQUusQ3uWQIQec0NNx3uoRhCGf+zyZ6afL3RUp9NyexHsQEGnYWTTnSiBirTVov//RzFsZiUssJHn6k1fWh1q1D3PI1RWHhYhREAKSOXBCiCAYREirB9QMD4abToXFFFdoBAMThOPuvJGraC1WL0u2jVDZwAAhCyJMquG19VegFBihqKhJbEYTuFX0FTR6ujDwdIIFwvicgTLgQEHBF5RxSz8gnv/7UsQwAAxEsWPkmSyBfaWuNJGLUt/1OXWXVEABJKQ8kDUSAgJiREd6aD9JGKbTxjw1NWX//qvUb//vb2bGohWg+qIjVKKdJjhwSvUDgDoEvBFrV35FTZP3fk+xLOdT7vPbnXf3qy41Kowaz0y+4Ph8moY5iE6VusmpqqVCACndyUgmHQXIbgvesnVk5wjqjVWbcv3+cNwtqUEBirZLngNlxxB5hUQmj8MehUQ+XtHmAeD5FooZBBIInBKGbJdHtpbMtD/ZZKbeVVTNQiAAScos//tSxC0ACfRzd+SFEME6ja68wwiwLI6j4WYi2UU+1lLS3axTibfo3z3u2ZJjyBQauC4EKCgdeplCAigKRcEla6z9teFTEAjcDGURd7vrQKr2RE4hUvVGwAPV/N2qu6iYgU5LSPr6PzKJLf2E2g0iZpV1teeoWkbVbnJMaQ2ymZFo8xAslNCh0mOiDSMWJVsAzmmAn9A3ipIqPLlyQhHkjLTU6Me/T11feiybzJ+pqpVkAAm5h8q5+pptKtS52LQGEDEBCI5BLFBCisLz9OfYRf3/+1LEO4AKIIt37BhlwUMRrjzxpTh0D8FRAqHtfc/ArFUhvOsfYks0mHGB1iu9b+zULx7jb2151lHr+lCoV75BZqh3ZmM5BqMVquNdvNEbR8u6POEhwyagWMLB/XDrwZ6RUnaFuUH8ttcE0sPlx8IDd4rFzpITC91ntX/N9bzFz///Qo9JHajGhol3d3YyoL7wrpCRoWIsbTWjJkNaVMhqH+ZfQ2sJC5Gt/SlwIFKkdRn88iXW54pVJf66GBGCpA+0RBlqY1iIuJR7EUoDJZAE3f/7UsRIgAkQiXfHpGbRQxIuuQeMMrlelt6I5Vv61XvOmZqTEAAtKBEpuZOdHYtEu9kr/fu72a+Zlm9uIxQv6pwJ27pqyUiVVV+NrSpFTgdHC0HQzR0cFgrDUOkjwGeJHhaK/5bXcrYJfK2nm1uckwB0J2WHVDJDGySW1xtttsEvQjZ6meyBIc1AiwCh1OvchgISO3iqFkSovh4i6K1H3gtOVeuokJEQGBwncG1XvIi4gabk4znG9Vzbe86GNyfmhvV1GnrrcbGt0va9PWBXOrZt//tSxFmAChCHY/WEAAJZoy3/MPACbE0alrf49779YHv8vK/xLU9HlfTW8WzHfWz6Xv//3lWcPlxwMBQJLQABHV+cGh4PmYJWWCC3HLCCoEAXhFF7lE+UQkUZd2a1Tpx7luRSDn4HL8ykwOVskkDhEWlHkkEhvXkkaGCzhYQwGD7v/K8U7VCv1ioaGCRQIwKEK2djCH//WxkO27WElxkqxBIymkH3gP8WdTujw7JFqv4qi+ZXzVYcxWPN1dmnhMpO0FQdvuWJ3Zdeom6oh4t38iL/+1LERAAJyHl1vPQAMU2Kr3T2GG5y6igLuOlR4WKdaHu/oJnIbmQmMUUCwSQaRQALZriAJpVBSFhLSGRBH+ghI/UQGBo6EWIya2bWk+S/jeauGWbc1U8LItpKKqMgDRMXEJY0sb2lUwYBo8YEoKgqDUdB7rfIpHrLpnqe9wVINnwAAFWaVEA73uiwVAkzFUxb0qBjRFJsuBPEOI8lfwphPQ1kMNULM7CZorDGxxit+MdjVl//9/milmS1f2//+kt3V93Qvp/qiKpVRhrTTCohm//7UsRRAAo4X2GsMSTBNadsfYYUqW7QkGNIJ6MEPBUhJA/Efg4VOXx+AZo0eHltfrXvtevCAhLI4kEHKyl7M38KMiqYW2+hv/+FVL0Wn/Vf/9aOaY6XZV//zGeWrEFBlu/629XqQKt28ac2cTgdoIDTkDpeErzcxWj6YoiwXUEwE5ecJwR8PKhhwqrCVmY/wiKo/qoFBQGwVAIaU5PRrDQNfJx4Cv/UVUpbs77zxIGg6Je75JQd/kaKAAcbqYcv2wD/gx5+QZaBE2foWw05Vxwb//tSxF8ACkE/baekS3FODi30wZYewmLAMGiFyBDCmUp+02l/VGLLFYb8K4WHnJbmVpzusZ/4TWaFv+b3W3w438yuMjW1N/M0Yh0UtYUZUdIAAHIQALrAssWgPg5HCRtRDYQwnBYPqCcIZNHpqpOFDqyBtlRDpxhigfJhTmy4srjXHdhRGAzb/1AGwb0Pff6Z+TRVN3P/99tbuT2e3qO2Pt/KAB/Ar7gG0EmiziURaolGLSjowXDqelBYX5Dw4Mlx2YHVKy5C7igRdoRRxxcNxo7/+1LEagAKZMNBrCRrCUWKpjGmIOEgETeTEZHkVM8TG33tCLPgs0hcP/ea3wrp3sbY84fzfmf0A9UBW+QXeMIMWVL6IkuSmM/h+SBNEQcfc4qLF5+hcugPpWjbca1pOzlNu5/hToZS0pCaWFiYbS1goGg+RDoLBdAjiZl40PD4kLh80igvll+zW/9dAfqZuUAFivWHMhwe1shL0t5kqo3B5VGtxtOhUmxbl3ZUfM1O6qU2Ev53qFBUR1bcbQCr8opg14w4KsPA6Usn2oqnDgw48P/7UsR1gAoYmzEsMGdJT41l5aYY4MMMogM9MYPteASgCUHyCY7q20ygckxtIq4+MSm2uBp6jCwg4pKwIqQVUr6V9+dNqk+5WvkllRmSCKxwNR0IFuTILLlloWoRngNGm58kallTtAtVop2fyDVKJatujcbaSQAWR/jwiQyUIHYxThQ0oVQ1IcpTidA40WEBQpnVEeYVMRS3OVCKtkYxXV0xRq1u30687RdyEO/86o4fQiVKdquUXa48rcEv/tKsxfHFXFKNJarVodDYo2IgkAQc//tSxIEASdRvPyw9ITE/EOVllI14XqIpOIdFOHD1uxtWVYNrjzwl56eRGKGFyKL6bV6uBMJifvlMoCaF6WcxXOJKsK+fnQhG21XQnsB28miQzIreHDvJe2Pe9q7eObWq9xr59//n0vePjDhVwUj5ii////+SJ8S9/SJJNiJXHjV/////9P/v7xqmWB7HVLO5yTwX53//ULA8Slx4YgEAQhYFSDoqWi15dJdeLOq1iUNYcR1IRLaThgLAeFAwMCQJDPoiInLlhLXUuOjWeepVSl//+1LEj4AKiOVNtPKAOlonqvc08AKf0S9V/fchV+oZ8ck3/aLq6UmOgEHMagANFgCpI52+ISKXruDrNnEYl7BcA0dBziN3SkfYekAHQ9AVqotUv+KpVS+n9WVVyY/4f0lUmOM1VmdXEoPMg0IgKJQZEpv/SaFArrOuZ9/iyk9VAK0cGwAqBvkNjkwtOkKICCqXrbOnF5U69qNO7Q00et0keweBFysN+dSgZ//21SZqiGb///dzojnr6yGIMViN/c61V37tydodwRAiNX//T4IZQv/7UsR4AAlop1a9k4ARSZUr6YYM4EJyR3R3FIsWPUZTCZ+4S3FW47Zpf7mFAkdU4wPdQ5nMgvaEMp/6aSMchxBCKQhTG//qHUTK/QhkBFcKcNQWjw0rsio7v//o8MCj/y448JSRUmogByJOqbsKcSFfBzi76IKjx+UJNyeGIRUEBNJvg/GcFCg8q09LtP+5TfZu3q4xLaiP5nT5DsoW/X//5UR/0vq8js5WbS2n/kbvylJGkrPWhUJMewE3FHCpEACFaGMBjp2aVG5buQflIOM7//tSxIcACjFDT02MUQlHoe408wmmrwG78vYJDbrK7d/AtyCFp2Xvt20VJS2j++/vXPwmPzDyfu4iIZiNf9Dqev7o3KBiYPNcv+hc5/4ncMdtTQAADAsQTtijRTERUN3iCgZ7XmL5wlQ9dc+xCKNxQ3b5DUfDXmSA/ngO673q/trXvPjW/uKx7eKg3DdFjBtnixODOx7mh2j4gQ3S/2ZlVqJ0/yVVBR30e3/O5L01fk1k9OUXoKiI8gcE1AMYHxQRMKI6poEbMQABAAEF9Fh6K03/+1LEkwAKVRNXrTCpwVAY7TWDCi4pFx3EtkuOWUcGcq4afEofvMpUcXvP00sVRZ78kV9n/YMox7j63l4fzI9RRuApIBkKV/BYqTMWp5v64IA0ccBzLbBSIxhkyCwxl//5vfWCAqJXDR6P9FKEAAAKm3qKoonU1t4AattujOV7suC4mdwCgJQmMka6vptLI4j++1DTF//1/9/WtPx1DNqbZkwOBodBGJZQZtHiF/7WgA0gen/ob///1JFJAwAAABGAr4aG+0Gg+DLIJf1X9lfIKP/7UsSdgA6dT11NPK+BhBEstYG+EBJpQ1q5edlWFanIjUQLFTU/JKet+YznDmRm//UyoeQISJ7/brWYSltvgcmdIuDqUESQhIlSyyozpp1XasCqEiVBKrjwhxei+w0TGsqgr9YEvC8fMJQNyQJS0iv1WuThrShyaiVSdnT6uAwtOIG//2y3vsOOpDS3/X+Y9dDCzFKto5uO+k4kTsep3/aEyafowAAgApE3ZwSQ0B+MQl6MwteouoUSH8rZuiWxkbsLmLhN6WSsBJzpq52NV7Ku//tSxJCACdB5Xwzhg4FKDez5gyYYdlgw+61+k/aWT2j5V3rSqt2FUCxtR5ilYCeJHrKK8CrNW/zUjcORfYVaTDVJjL4UIWd8nRzHcPlOKY6nXJAw6wmQlFEqcbDcZ1z58wefqx2bKJBDd1HD2n7f8lL3Fv9S2aSxUqtgcCN0X0//6/3pV2LTKois0KGj9pk43UYE40yunSAep4FIQGQKAKMRPdijvuZelNm9K3ZcOxoOlnqUy2Wetv0d/t//vQzzFYv/SVfYpHMy6lnVjerTX9//+1LEngBKYOlxjDCpMUaN6qWsMOD/8Uj/Yki3an/9SulqrDNQrZfqKaksRw4dFA7ikenCaQ1g9lAx0mpWSN3XitoqPRfRyyDhrE9SCn6K9rN/bLQyqzf/WnlYSd/1gjAwRMwikkp6/LHf/Xe7ojEgcRtBll2AoWYggeRKwS8mSrDKN5RKBdKpiU74mDijyVrZ0p9pKptnmUhXYKJBs5Pv3hklGT/d0maok0xv13IjnMaZDFX6xQICB3s/22fPVSgrEjawJddgG/IgA0yIqXS5bf/7UsSpgAmcsWFHmK0RUiYogaYJeFX0OP2sGDKimq7pTMEKXAiiiVYrU6hRAp1uwNvR390UxWev70ZDDAaViQoeUO9pfSKKJX//qgJEm7ka6MdnO6laA1gCvS1pECI4c1g1rtV9mymPBPotp89gGJx4hnEwOuajG1l/PlP6csoGFZeHuWgSqu/z/eYGmhRc41bAqoRHuFIpiJ53etLbTIWXfeKswakDABG1LQxbG8PsXiZI8bhkRkDyyyLx1pw31M8Qpz7LCEvLASiGLOkRqtaR//tSxLaACbj1VaYYTMFBnql08wnYiZi5C+EbAyQ9KV0gcSFXDWrKUL0hZKE00e6Y///+j+oJavVAfix5kI94ni8RAWhiIKAjCnj3dp9dObKtmLCVz+E+mEI9J4TVuhMHM5kmsfQODASRaC14jJVfBr5AcR+f1S+/Sv8o1rXu1fV771jhbFUAqEIp/9KBbBrSCImSwWNG42VFdAJwupJCO1ikAqekWUpt2djb2OxSe579NU7BumV15tuXTO5W4c78dobWadRpF04CHaX93dEwPfj/+1LExQAKVPVFp4hzQTmP5gmkmZDL/swJCAQLq6QD4C7FMTGlTICG4uC+ILRFAkBGGGMn+IhnJNKcCThUoqK6AhYsLcwEwpAy4JcvSTDIetI8iYJjezUQlvxEiJPO2ex/npkg2sTuaxlF/0fpxXR//pT2LQBo2y+5JGkAPlnX4cR1ZU4rgP3EKWDMqZ9pS16K43rcokLjwQ4i24rWimVsSLcGCMyyb6c46R2pv+RZeSmaPBn3W1P7/zOZjtj0ZaYPfzt/ufYtOMTLpAmETQRHE//7UsTSgAmggyxMPGkBQQ/lmYeMsQTf7xoEdSCauF1ZCHlEvV9mOKtjIwTjBMGQipBmcrk5dLx82WTVcdk1iD7T1YJ789c97YhNAyZPtA5yQvsOrGAuCA8mJXGA6V65137WOYGQkIh8w1XzBb+ymr6M6lUASQpBYA5IFCBa9OsvcUElg3KgVGw18jZJRemonLlqN48Oo6dCGFAaUVCMTS1uooWl87NnIrZJl6RSTg+ZGKz6n+aF7+VecmbHpBIwD92u49ZX9q6/u3d9J11VVIDb//tSxOGACeBtM4wwxSlrG+UlpgywBINKB0AplPSj+3jcAIgSEdSRgaDSbnZ0QUJ0OkI7OuUiQTmbuNtRTkx5ZqR7Hn4M5Tsc1NFXUxRbHdNne955amRZsC0kWra94xIvYxwuMF2MWKkNdun8UxdvN19f1gBlB26kDwS0ss3FgSkV6Q07fDQ4iW0RicNEDQ1JtpyC1pzxWlmkLmVco7uFRth2BF4RiCSSgdBisXEaQsJHXG9qyCxZIbEgkPFShNjx452bhYjR2tjtaaVU2O8reuX/+1DE6oAMbQM7rAzVYVuKZaWsMAj+sDgkoIOB0MNGHQCVAajiyiTv6+0402BX0aTEJRIbsaQRB4PCUo0XJ8YWOeBaIFNY/H10Wck3o5tTcdPResOk8PEQTABI2CInOA2KtvSfLtsRVYh0t5CXc2hWeQXu/2NAG1M6imoAMCIWCkZDMUhEAAAAAPDxCDyt/MeCROoIicwH/UzYuXFVz/gdAANILojnC4pZDVAhKOUM1xBgAIQsjGmRImiBCtvHGILhx4NzBoDGjMlwmRlfmwuA//tSxOqAC4TrJy2wZcF/GOTllgy4WQLgFBlYgJkbHTImv3J8i5uXGcixiiZGJdLv80NGTsmm6piDR4RfD4IODAfBVwlBoce+bB8ICQ4bLg8JVgqRFgab/SGP/1CU7UxBTUUzLjk5LjVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+1LE6oAMFIkpLaRnwYqUJKK4gABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7UsTmgBO03zG5uYAAAAA0g4AABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV",
-               "encoding": "MP3",
-               "speaker": "PASSENGERS",
-               "volume": 70
-           }
-       ]
-   }
- ```
 #### Fields
 ##### Header
 | Name            | Type           |  Description                                              |
@@ -1017,7 +957,7 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 | expiryTimestamp | string         | ISO 8601, UTC, audio should not be played after this time |
 | type            | string         | Type of audio message                                     |
 | ref             | string         | reference to what the audio is about                      |
-| value           | array of Audio | one or more sound bits to be played in sequence           |
+| value           | Audio[]        | one or more sound bits to be played in sequence           |
 
 ##### Audio
 | Name     | Type   | Description                |
@@ -1034,27 +974,13 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 | MP3  | MP3 Codec                  |
 
 ##### Enum SpeakerType
-| Name       | Prio | Description                                              |
-|------------|------|----------------------------------------------------------|
-| PASSENGERS | 1    | Internal speaker for passengers                          |
-| DRIVER     | 2    | internal speaker for the driver only                     |
-| EXTERNAL   | 3    | External speaker for announcements to waiting passengers |
-Speaker types corresponds to the ITxPT-standard, S01v2.0.1_2017, Vehicle Installation Requirements Specification, side 32.
+| Name       | Priority | Description                                              |
+|------------|----------|----------------------------------------------------------|
+| PASSENGERS | 1        | Internal speaker for passengers                          |
+| DRIVER     | 2        | internal speaker for the driver only                     |
+| EXTERNAL   | 3        | External speaker for announcements to waiting passengers |
 
-#### Decibel levels
-The table below describes the approximate decibel levels the sound system should be producing both inside and outside of the vehicle. 
-
-A message volume of 70 is what you should expect during normal operations. When adjusting the decibel levels, your priority should be to best fit the decibel level to the normal operation range. 
-A message volume level of 100 is only to be used in the event of an emergency situation. 
-
-| Speaker    | Message volume | Decibel volume                                 |
-|------------|----------------|------------------------------------------------|
-| PASSENGERS | 70             | 70 – 73 dB, approximately 1 meter from speaker |
-| PASSENGERS | 100            | max 90 dB, approximately 1 meter from speaker  |
-| DRIVER     | 70             | 70 – 73 dB, approximately 1 meter from speaker |
-| DRIVER     | 100            | max 90 dB, approximately 1 meter from speaker  |
-| EXTERNAL   | 70             | 90 dB, approximately 1 meter from door 1       |
-| EXTERNAL   | 100            | max 100 dB, approximately 1 meter from door 1  |
+Speaker types corresponds to the ITxPT-standard, S01v2.0.1_2017, Vehicle Installation Requirements Specification, page 32.
 
 ### Command and controls channel
 
@@ -1062,7 +988,7 @@ A message volume level of 100 is only to be used in the event of an emergency si
 |---------------|--------------------------------------------------|
 | Name          | Command and controls channel                     |
 | Local topic   | infohub/dpi/c2/json                              |
-| Bridged topic | ruter/&lt;operatorId&gt;/&lt;vehicleId&gt;/itxpt/ota/dpi/c2/json |
+| Bridged topic | ruter/&lt;recipient&gt;/&lt;vehicleid&gt;/itxpt/ota/dpi/c2/json |
 | Schema        | c2.json                                          |
 
 Command and control messages from Ruter Data Platform.
@@ -1125,7 +1051,7 @@ The payload is defined as an object with no structure to provide flexibility.
 |---------------|--------------------------------------------------------------|
 | Name          | Connections                                                  |
 | Local topic   | infohub/dpi/connections/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/connections/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/connections/json |
 | Schema        | connections.json                                             |
 
 A snapshot of real-time data about the transit connections at the next stop.
@@ -1137,36 +1063,55 @@ This message is intended to be sent before the bus comes to the next stop. It is
 |---------------|-----------------------------------------------------------------|
 | Name          | Multimedia control                                              |
 | Local topic   | infohub/dpi/digitalsignage/json                                 |
-| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleId&gt;/itxpt/ota/dpi/digitalsignage/json |
+| Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/digitalsignage/json |
 | Schema        | digitalsignage.json                                             |
 
 Change what appears on the target surfaces of the screens.
 When we begin to deliver packages of media to the buses, for example, in connection with campaigns, we must be able to trigger playlists as needed, for example at a stop, a time, etc.
 
 ## Summary of changes
+This page currently contains version 2.1 of the specification.
 
-| Category      | Topic                            | Description                                                                 |
-|---------------|----------------------------------|-----------------------------------------------------------------------------|
-| added field   | infohub/dpi/journey/json         | added location (latitude and longitude) per stop place                      |
-| added field   | infohub/dpi/eta/json             | the field text has been added for display text in DPI                       |
-| changed field | infohub/dpi/eta/json             | the field expectedArrivalTime has been renamed eta                          |
-| changed field | infohub/dpi/externaldisplay/json | the field routeName has been renamed destination                            |
-| removed field | infohub/dpi/arriving/json        | audio has been removed; see new audio/json topic                            |
-| changed field | infohub/dpi/arriving/json        | the field message was made multilingual                                     |
-| added field   | infohub/dpi/arriving/json        | the field zoneId was added to support the sales system                      |
-| removed field | infohub/dpi/deviation/json       | audio has been removed; see new audio/json topic                            |
-| changed field | infohub/dpi/deviation/json       | the field message was made multilingual                                     |
-| added field   | infohub/dpi/deviation/json       | the field ref was added to indicate what the deviation affects              |
-| removed field | infohub/dpi/announcement/json    | audio has been removed; see new audio/json topic                            |
-| changed field | infohub/dpi/announcement/json    | the field message was made multilingual                                     |
-| added field   | infohub/dpi/announcement/json    | the field ref was added to indicate what the deviation affects              |
-| added field   | infohub/dpi/announcement/json    | the field type was added to support DPI needs                               |
-| new topic     | stopsignal/json                  | new topic for stop signal status when changed by using stop button          |
-| new topic     | telemetry/+/json                 | new topic for vehicle telemetry from systems on the bus, including FMS data |
-| new topic     | tsp/json                         | new topic for traffic signal pre-emption message                            |
-| new topic     | infohub/dpi/audio/json           | new topic on which **all audio** will be sent                                   |
-| new topic     | infohub/dpi/c2/json              | new topic to send commands to DPI application                               |
-| new topic     | infohub/dpi/diagnostic/json      | used by DPI only to send diagnostic info to BO                              |
+| Category          | Topic                                                                   | Description                                                                                                           |
+|-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| added field       | infohub/dpi/journey/json                                                | added location (latitude and longitude) per stop place                                                                |
+| added field       | infohub/dpi/eta/json                                                    | the field `text` has been added for display text in DPI                                                                 |
+| changed field     | infohub/dpi/eta/json                                                    | the field `expectedArrivalTime` has been renamed `eta`                                                                    |
+| changed field     | infohub/dpi/externaldisplay/json                                        | the field `routeName` has been renamed `destination`                                                                      |
+| removed field     | infohub/dpi/arriving/json                                               | audio has been removed; see new audio/json topic                                                                      |
+| changed field     | infohub/dpi/arriving/json                                               | the field `message` was made multilingual                                                                               |
+| added field       | infohub/dpi/arriving/json                                               | the field `zoneId` was added to support the sales system                                                                |
+| removed field     | infohub/dpi/deviation/json                                              | audio has been removed; see new audio/json topic                                                                      |
+| changed field     | infohub/dpi/deviation/json                                              | the field `message` was made multilingual                                                                               |
+| added field       | infohub/dpi/deviation/json                                              | the field `ref` was added to indicate what the deviation affects                                                        |
+| removed field     | infohub/dpi/announcement/json                                           | audio has been removed; see new audio/json topic                                                                      |
+| changed field     | infohub/dpi/announcement/json                                           | the field `message` was made multilingual                                                                               |
+| added field       | infohub/dpi/announcement/json                                           | the field `ref` was added to indicate what the deviation affects                                                        |
+| added field       | infohub/dpi/announcement/json                                           | the field `type` was added to support DPI needs                                                                         |
+| new topic         | stopsignal/json                                                         | new topic for stop signal status when changed by using stop button                                                    |
+| new topic         | telemetry/+/json                                                        | new topic for vehicle telemetry from systems on the bus, including FMS data                                           |
+| new topic         | tsp/json                                                                | new topic for traffic signal pre-emption message                                                                      |
+| new topic         | infohub/dpi/audio/json                                                  | new topic on which **all audio** will be sent                                                                         |
+| new topic         | infohub/dpi/c2/json                                                     | new topic to send commands to DPI application                                                                         |
+| new topic         | infohub/dpi/diagnostic/json                                             | used by DPI only to send diagnostic info to BO                                                                        |
+| added field       | avl/json                                                                | added optional `horizontalDilutionOfPrecision` to align with ITxPT                                                      |
+| changed field     | avl/json                                                                | changed enum values of `gnssCoordinateSystem` to only allow WGS84. No other coordinate systems are allowed.             |
+| changed field     | avl/json                                                                | changed enum values of `signalQuality` to remove redundant suffix `_QUALITY` and align with ITxPT                       |
+| changed field     | avl/json                                                                | changed enum values of `gnssType` to align with naming in ITxPT                                                         |
+| documentation     | stopsignal/json                                                         | state explicitly that stop signal messages should also be sent when the signal is turned off.                         |
+| documentation     | telemetry/json                                                          | some extraneous detail about FMS-to-IP has been removed.                                                              |
+| documentation     | vehicle id                                                              | defined vehicle id as VIN                                                                                             |
+| documentation     | sender and recipient                                                    | defined sender and recipient as PTO id assigned by PTA                                                                |
+| documentation     | tsp/json                                                                | added example of encoded value                                                                                        |
+| documentation     | infohub/dpi/externaldisplay/json                                        | make clear that `alternativeText` will be used and is intended for the second line of the display. Example was updated. |
+| schema correction | infohub/dpi/journey/json                                                | `routeChangeTimestamp` is not required                                                                                  |
+| schema correction | infohub/dpi/audio/json                                                  | enum for encoding type should contain only MP3 and OPUS                                                               |
+| schema correction | infohub/dpi/arriving/json                                               | add `addtionalProperties: false` to correctly support multi-lingual messages                                          |
+| documentation     | tsp/json                                                                | Name was corrected from `encodedMessage` to `message` to conform with schema                                              |
+| documentation     | telemetry/json                                                          | Added link to more information on Ruter’s external wiki                                                               |
+
+In version 2.0.1 we specify that &lt;vehicleid&gt; shall be understood to be the vehicle's VIN and
+&lt;sender&gt;/&lt;recipient&gt; are the id for PTO assigned by PTA.
 
 ## JSON Schemas
 
