@@ -73,7 +73,7 @@ Notify PTA BO that the bus is starting a block.
 | Name             | Type    | Description                   |
 |------------------|---------|-------------------------------|
 | eventTimestamp   | string  | ISO 8601, UTC                 |
-| vehicleNumber    | integer | Same as the &lt;vehicleid&gt; in the topic, a VIN |
+| vehicleNumber    | string | Same as the &lt;vehicleid&gt; in the topic, a VIN |
 | blockId          | string  | A series of journeys          |
 | vehicleJourneyId | string  | The actual journey started    |
 
