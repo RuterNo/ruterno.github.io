@@ -58,7 +58,7 @@ Operator names are added as needed and they must be lower case.
 
 Notify PTA BO that the bus is starting a block.
 
-#### Example payload
+#### Example payload 1
 ```json
 {
    "eventTimestamp": "2019-05-04T15:03:10Z",
@@ -68,16 +68,48 @@ Notify PTA BO that the bus is starting a block.
 }
 ```
 
+#### Example payload 2
+```json
+{
+   "eventTimestamp": "2019-10-09T05:19:22Z",
+   "vehicleNumber": "E2345678901234567",
+   "blockId": "1102-2019-10-09",
+   "vehicleJourneyId": "1102-2019-10-09T07:12:00+02:00"
+}
+```
+
+#### Example payload 3
+```json
+{
+   "eventTimestamp": "2019-10-09T05:19:22Z",
+   "vehicleNumber": "E2345678901234567",
+    "blockId": "1102",
+   "vehicleJourneyId": "1102-2019-10-09T07:12:00+02:00"
+}
+```
+
+#### Example payload 4
+```json
+{
+   "eventTimestamp": "2019-10-09T05:19:22Z",
+   "vehicleNumber": "E2345678901234567",
+    "blockId": "1102-2019-10-09",
+   "vehicleJourneyId": "294"
+}
+```
+
 #### Fields
 
-| Name             | Type    | Description                   |
-|------------------|---------|-------------------------------|
-| eventTimestamp   | string  | ISO 8601, UTC                 |
-| vehicleNumber    | string | Same as the &lt;vehicleid&gt; in the topic, a VIN |
-| blockId          | string  | A series of journeys          |
-| vehicleJourneyId | string  | The actual journey started    |
+| Name             | Type    | Description                                                                       |
+|------------------|---------|-----------------------------------------------------------------------------------|
+| eventTimestamp   | string  | ISO 8601, UTC                                                                     |
+| vehicleNumber    | string  | Same as the &lt;vehicleid&gt; in the topic, a VIN                                 |
+| blockId          | string  | A series of journeys. May be of the format `blockId`-`ISO 8601 start date`.       |
+| vehicleJourneyId | string  | The actual journey started. May be of the format `blockId`-`ISO 8601 start time`. |
 
 Vehicle journey is required and helps track cases where blocks are interrupted and replacement vehicles take over.
+
+Start time must match the scheduled local time, and is therefore typically CE(S)T.
 
 ### Complete block 
 
@@ -722,16 +754,18 @@ StopPointRef was replaced by StopPlaceId in v. 1.1. The field "text" was added t
 | stopPlaceId | string | NSR StopPlace code          |
 | text        | string | display text for passengers |
 
-### Information for sign boxes 
+### Information for external destination display 
 
 | Field         | Value                                                            |
 |---------------|------------------------------------------------------------------|
-| Name          | Information for sign boxes                                       |
+| Name          | Information for external destination display                     |
 | Local topic   | infohub/dpi/externaldisplay/json                                 |
 | Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/externaldisplay/json |
 | Schema        | externaldisplay.json                                             |
 
-Message to display on signposts. Usually line number (publicCode) and routeName, with support for alternative message. 
+Message to be shown on the external destination display. Usually line number (publicCode) and routeName, with support for alternative message. 
+
+>Note: external destination displays have previously been referred to as "sign boxes".
 
 #### Example payload
 ```json
