@@ -434,14 +434,14 @@ The types are under discussion but will be generated entirely by the DPI applica
 #### Example payload - STATUS
 ```json
 {
-    "eventTimestamp": "2017-06-26T00:00:29.156Z",
+    "eventTimestamp": "2019-10-09T05:19:22Z",
     "clientId": "5cc620d6-ef27-4c22-b632-498dcdda803a",
     "type": "STATUS",
     "payload": {
         "client": {
             "version": "2019-08-16T08-11-58Z",
             "display": "1",
-            "lastLoaded": "2017-06-26T00:00:28.445Z"
+            "lastLoaded": "2019-10-09T05:18:22Z"
         },
         "browser": {
             "protocol": "http:",
