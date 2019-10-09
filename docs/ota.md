@@ -434,32 +434,24 @@ The types are under discussion but will be generated entirely by the DPI applica
 #### Example payload - STATUS
 ```json
 {
-   "eventTimestamp":"2018-10-31T12:45:50Z",
-   "screenId":"ad71dba8-c881-11e8-a8d5-f2801f1b9fd1",
-   "type":"STATUS",
-   "payload":{
-      "version":{
-         "application":"2018-10-03T12:45:50Z",
-         "media":"2018-10-05T12:45:50Z"
-      },
-      "display":{
-         "type":"1",
-         "res":{
-            "height":360,
-            "width":1080
-         }
-      },
-      "stats":{
-         "logEntries":{
-            "error":0,
-            "warning":14,
-            "info":123
-         },
-         "lastLoaded":"2018-10-31T12:45:45Z",
-         "pingFreq":3600,
-         "usedStorage":"124kb"
-      }
-   }
+    "eventTimestamp": "2017-06-26T00:00:29.156Z",
+    "clientId": "5cc620d6-ef27-4c22-b632-498dcdda803a",
+    "type": "STATUS",
+    "payload": {
+        "client": {
+            "version": "2019-08-16T08-11-58Z",
+            "display": "1",
+            "lastLoaded": "2017-06-26T00:00:28.445Z"
+        },
+        "browser": {
+            "protocol": "http:",
+            "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36"
+        },
+        "logEntries": {
+            "warning": 0,
+            "error": 0
+        }
+    }
 }
 ```
 
