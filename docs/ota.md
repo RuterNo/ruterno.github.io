@@ -466,16 +466,18 @@ The types are under discussion but will be generated entirely by the DPI applica
 #### Example payload - HEARTBEAT
 ```json
 {
-  "eventTimestamp": "2019-06-27T09:10:59.198Z",
-  "screenId": "d9d902ed-fcba-4618-b62d-ffa5e19c59d3",
-  "type": "HEARTBEAT",
-  "payload": {
-    "client": {
-      "version": "2019-06-25T07:01:48.214Z",
-      "display": "1"
-    },
-    "routeId": "RUT:Route:430-30"
-  }
+    "eventTimestamp": "2019-10-09T10:16:07.000Z",
+    "clientId": "638f47b7-d0d4-4043-9125-2dd8db6b8a84",
+    "type": "HEARTBEAT",
+    "payload": {
+        "client": {
+            "version": "2019-08-16T08-11-58Z",
+            "display": "1",
+            "windowHeight": 1080,
+            "windowWidth": 1920		
+        },
+        "routeId": "RUT:Route:0-54012"
+    }
 }
 ```
 
