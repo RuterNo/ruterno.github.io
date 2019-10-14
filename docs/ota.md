@@ -26,7 +26,7 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | infohub/dpi/journey/json           | Modified   | In          | [Vehicle journey](#vehicle-journey)                               | Coordinates for the stop are now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                              |
 | infohub/dpi/nextstop/json          |            | In          | [Next stop](#next-stop)                                           | stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                                                                         |
 | infohub/dpi/eta/json               | Modified   | In          | [Estimated arrivals](#eta)                                        | The text for the time to be displayed on the screen is now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                    |
-| infohub/dpi/externaldisplay/json   |            | In          | [Information on sign box](#information-for-sign-boxes)            |                                                                                                                                                                                                           |
+| infohub/dpi/externaldisplay/json   |            | In          | [Information on sign box](#Information for external destination display)            |                                                                                                                                                                                                           |
 | infohub/dpi/arriving/json          | Modified   | In          | [Arriving](#arrival)                                              | Public announcement of the stop; adds expiryTimestamp and zoneId field; createTimestamp was deleted in v. 1.1                                                                                             |
 | infohub/dpi/deviation/json         | Modified   | In          | [Deviation](#deviation)                                           | Multi-lingual, textual deviation messages. With references to stops/journal/lines etc.                                                                                                                    |
 | infohub/dpi/announcement/json      | Modified   | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
@@ -1009,6 +1009,21 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 | EXTERNAL   | 3        | External speaker for announcements to waiting passengers |
 
 Speaker types corresponds to the ITxPT-standard, S01v2.0.1_2017, Vehicle Installation Requirements Specification, page 32.
+
+#### Decibel levels
+The table below describes the approximate decibel levels the sound system should be producing both inside and outside of the vehicle. 
+
+A message volume of 70 is what you should expect during normal operations. When adjusting the decibel levels, your priority should be to best fit the decibel level to the normal operation range. 
+A message volume level of 100 is only to be used in the event of an emergency situation. 
+
+| Speaker    | Message volume | Decibel volume                                 |
+|------------|----------------|------------------------------------------------|
+| PASSENGERS | 70             | 70 – 73 dB, approximately 1 meter from speaker |
+| PASSENGERS | 100            | max 90 dB, approximately 1 meter from speaker  |
+| DRIVER     | 70             | 70 – 73 dB, approximately 1 meter from speaker |
+| DRIVER     | 100            | max 90 dB, approximately 1 meter from speaker  |
+| EXTERNAL   | 70             | 90 dB, approximately 1 meter from door 1       |
+| EXTERNAL   | 100            | max 100 dB, approximately 1 meter from door 1  |
 
 ### Command and controls channel
 
