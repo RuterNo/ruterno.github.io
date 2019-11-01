@@ -674,6 +674,9 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 |-------|------------------------------------|
 | BUS   | This was originally listed as BUSS |
 | TRAM  |                                    |
+| METRO |                                    |
+| TRAIN |                                    |
+| BOAT  |                                    |
 | OTHER |                                    |
 
 ### Next stop 
