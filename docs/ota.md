@@ -695,16 +695,18 @@ StopPointRef was replaced by StopPlaceId in v. 1.1.
 ```json
 {
     "eventTimestamp": "2017-10-31T08:38:02.749Z",
-    "stopPlaceId": "RUT:StopPlace:03012453"
+    "stopPlaceId": "RUT:StopPlace:03012453",
+    "index": 10
 }
 ```
 
 #### Fields
 
-| Name           | Type   | Description        |
-|----------------|--------|--------------------|
-| eventTimestamp | string | ISO 8601, UTC      |
-| stopPlaceId    | string | NSR StopPlace code |
+| Name           | Type    | Description        |
+|----------------|---------|--------------------|
+| eventTimestamp | string  | ISO 8601, UTC      |
+| stopPlaceId    | string  | NSR StopPlace code |
+| index          | integer | Index of stop place in journey data |
 
 ### ETA
 
