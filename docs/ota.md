@@ -783,7 +783,7 @@ Message to be shown on the external destination display. Usually line number (pu
 | eventTimestamp     | string | ISO 8601, UTC                                                                      |
 | publicCode         | string | Publicly known bus, tram or subway line number                                     |
 | destination        | string | Final stop or explicitly set destination text                                      |
-| alternativeMessage | string | Second line of sign used for via or other supplementary information when available |
+| alternativeMessage | string | Second line of sign used for via or other supplementary information when available (optional) |
 
 ### Arrival
 
@@ -826,7 +826,7 @@ The field expiryTimestamp has been added to to prevent delayed messages from bei
 | eventTimestamp   | string                            | ISO 8601, UTC            |
 | expiryTimestamp  | string                            | ISO 8601, UTC, audio should not be played after this time |
 | ref              | string                            | reference to StopPlaceId |
-| zoneId           | string                            | Id of payment zone.      |
+| zoneId           | string                            | Id of payment zone (optional)      |
 | message          | dictionary of MultilingualMessage |                          |
 
 #### MultilingualMessage
