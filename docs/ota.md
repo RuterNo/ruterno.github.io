@@ -781,7 +781,7 @@ Message to be shown on the external destination display. Usually line number (pu
 | eventTimestamp     | string | ISO 8601, UTC                                                                      |
 | publicCode         | string | Publicly known bus, tram or subway line number                                     |
 | destination        | string | Final stop or explicitly set destination text                                      |
-| alternativeMessage | string | Second line of sign used for via or other supplementary information when available |
+| alternativeMessage | string | Second line of sign used for via or other supplementary information when available (optional) |
 
 ### Arrival
 
