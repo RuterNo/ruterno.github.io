@@ -3,7 +3,7 @@
 ### Known situations and client fallbacks 
 Listed below are situations that may occur and how these situations are indicated in busmonitor application.
 #### Unable to establish connection to local mqtt-bridge
-![Unable to establish connection](../assets/images/no_connection.png)
+![Unable to establish connection](../../assets/images/client/no_connection.png)
 
 Note: dark blue background 
 
@@ -13,7 +13,7 @@ This means the client is unable to connect to the `ws://mqtt-broker:9883/mqtt` e
  2. Make sure the mqtt-broker is running and allows anonymous connections. Authentication to the remote mqtt-broker is done in your mqtt-bridge config.
 
 #### No journey received
-![Unable to establish connection](../assets/images/no_journey.png)
+![Unable to establish connection](../../assets/images/client/no_journey.png)
 
 Note: dark black background 
 
@@ -28,5 +28,5 @@ It may or have not received data on other topics.
 #### dry-run journey
 The journey qualifies as a dead-run when the public code of the line equals `0`.
 
-![Unable to establish connection](../assets/images/dry_run.png)
+![Unable to establish connection](../../assets/images/client/dry_run.png)
 
