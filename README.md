@@ -17,3 +17,14 @@ This site is a work in progress, and there might be incomplete information prese
 
 This site has been created using [Docsify](https://docsify.js.org/). Please see the 
 [quickstart](https://docsify.js.org/#/quickstart) on how to modify on the content.
+
+### Converting to pdf
+
+Make sure you have `nodejs` installed:
+ `npm run install && npm run convert`
+
+This will create `pdf/readme.pdf`
+
+#### Configure pdf settings
+Configuring pdf is done in `.docsifytopdfrc.js`
+Consult [doc](https://www.npmjs.com/package/docsify-pdf-converter) for further documentation.
