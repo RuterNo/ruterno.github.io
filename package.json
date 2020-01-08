@@ -1,0 +1,26 @@
+{
+  "name": "ruterno-docs",
+  "version": "1.0.0",
+  "description":
+    "## Introduction Welcome to Ruters documentation site on Github. This site is intended for PTOs that would like to integrate with Ruters IT-systems.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "convert": "node_modules/.bin/docsify-pdf-converter"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuterNo/ruterno.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RuterNo/ruterno.github.io/issues"
+  },
+  "homepage": "https://github.com/RuterNo/ruterno.github.io#readme",
+  "devDependencies": {
+    "docsify-pdf-converter": "^2.0.7"
+  }
+}

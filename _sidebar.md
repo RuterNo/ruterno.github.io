@@ -5,4 +5,5 @@
 * [MQTT](docs/mqtt.md)
 * [Sample code](docs/sample_code.md)
 * [Repositories](docs/repos.md)
-* [Troubleshooting (client)](docs/troubleshooting-client.md)
+* [Screen configuration (client)](docs/client/screen-configs.md)
+* [Troubleshooting (client)](docs/client/troubleshooting-client.md)
