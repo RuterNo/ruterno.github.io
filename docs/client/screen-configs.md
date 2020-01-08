@@ -32,7 +32,7 @@ This is the only configuration used for 48:9, and *all* 48:9 screens must be con
 ### Screen config 3
 ![Running state](../../assets/images/client/config/config-3-1.png)
 Running state of config 3. 
-Intended for screens dedicated to showing journey, i.e. media content (campaign, video) and deviations / announcements will not be ignored.
+Intended for screens dedicated to showing journey, i.e. media content (campaign, video) and deviations / announcements will be ignored.
 
 ### Screen config 4
 ![Running state](../../assets/images/client/config/config-4-1.png)
@@ -48,11 +48,10 @@ General rule of thumb for assignment of configuration id:
 
 1. All 32:9 (1920x540) screens should always be assigned config 1
 2. All 48:9 (1920x360) screen should always be assigned config 2
-3. All 16:9 (1920x1080 or 960x540) should always be assigned config 3, if one of these conditions are met:
+3. All 16:9 (1920x1080 or 960x540) should always be assigned config 3, if any of these conditions are met:
   1. This is the only screen on board
   2. This screen is in front of the bus
-4. Screen config 4 is used for the *right* screen when 2x 16:9 screens are horizontally aligned, facing the same way (cf. example 1). 
-5. For all other 16:9 screens, use config 3. 
+4. Screen config 4 is used for the *right* screen when 2x 16:9 screens are horizontally aligned, facing the same way (cf. example 1). (For all other 16:9 screens, use config 3)
 
 ![Example 1, 3x 16:9 screens](../../assets/images/bus/3x16-9.png)
 Example 1
