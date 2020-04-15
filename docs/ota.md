@@ -1230,7 +1230,7 @@ When we begin to deliver packages of media to the buses, for example, in connect
 
 | Category          | Topic                                                                   | Description                                                                                                           |
 |-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| added topic       | infohub/dpi/connections/json                                            | promoted connections from planned to implemented, and provided documenation of the topic                              |
+| added topic       | infohub/dpi/connections/json                                            | promoted connections from planned to implemented, and provided documentation of the topic                              |
 
 
 ### Version 2.1
