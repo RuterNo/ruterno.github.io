@@ -1,4 +1,6 @@
 # OTA Messages
+
+**Version 2.2**
  
 The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
 backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on. 
