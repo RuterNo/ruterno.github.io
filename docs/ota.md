@@ -1,4 +1,6 @@
 # OTA Messages
+
+**Version 2.2**
  
 The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
 backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on. 
@@ -18,21 +20,21 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | signoff/json                       |            | Out         | [Complete block](#complete-block)                                 |                                                                                                                                                                                                           |
 | avl/json                           |            | Out         | [Vehicle position](#vehicle-position)                             |                                                                                                                                                                                                           |
 | apc/+/json                         |            | Out         | [Passenger count](#passenger-count)                               | **"+"** is the placeholder for the door number                                                                                                                                                            |
-| stopsignal/json                    | **New**    | Out         | [Stop signal status](#stop-signal-status)                         | This signal does not exist in FMS and must be read directly from the electrical signal system on board                                                                                                    |
-| telemetry/+/json                   | **New**    | Out         | [Vehicle telemetry](#vehicle-telemetry)                           | **"+"** is the placeholder for an ID, such as PGN which is defined in the FMS standard; We specify which PGN or other telemetry data should be sent. **Used to be fmstoip but has now been generalized.** |
-| infohub/dpi/diagnostics/json       | **New**    | Out         | [Diagnostics for screens](#screen-diagnostics)                    | DPI diagnostics data to make sure the displays are set up correctly and are running as expected                                                                                                           |
-| tsp/json                           | **New**    | In          | [Signal prioritization](#signal-prioritization)                   | Message to be sent directly from the bus to facilitate signal priority at traffic lights                                                                                                                  |
+| stopsignal/json                    |            | Out         | [Stop signal status](#stop-signal-status)                         | This signal does not exist in FMS and must be read directly from the electrical signal system on board                                                                                                    |
+| telemetry/+/json                   |            | Out         | [Vehicle telemetry](#vehicle-telemetry)                           | **"+"** is the placeholder for an ID, such as PGN which is defined in the FMS standard; We specify which PGN or other telemetry data should be sent. **Used to be fmstoip but has now been generalized.** |
+| infohub/dpi/diagnostics/json       |            | Out         | [Diagnostics for screens](#screen-diagnostics)                    | DPI diagnostics data to make sure the displays are set up correctly and are running as expected                                                                                                           |
+| tsp/json                           |            | In          | [Signal prioritization](#signal-prioritization)                   | Message to be sent directly from the bus to facilitate signal priority at traffic lights                                                                                                                  |
 | madt/notification/json             |            | In          | [Message to driver](#madt-notification)                           | Notification messages to driver. Produced by Ruters backoffice and consumed by MADT device on-board the vehicle.                                                                                          |
-| infohub/dpi/journey/json           | Modified   | In          | [Vehicle journey](#vehicle-journey)                               | Coordinates for the stop are now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                              |
+| infohub/dpi/journey/json           |            | In          | [Vehicle journey](#vehicle-journey)                               | Coordinates for the stop are now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                              |
 | infohub/dpi/nextstop/json          |            | In          | [Next stop](#next-stop)                                           | stopPointRef was changed to stopPlaceId in v. 1.1                                                                                                                                                         |
-| infohub/dpi/eta/json               | Modified   | In          | [Estimated arrivals](#eta)                                        | The text for the time to be displayed on the screen is now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                    |
+| infohub/dpi/eta/json               |            | In          | [Estimated arrivals](#eta)                                        | The text for the time to be displayed on the screen is now included; stopPointRef was changed to stopPlaceId in v. 1.1                                                                                    |
 | infohub/dpi/externaldisplay/json   |            | In          | [Information on sign box](#Information for external destination display)            |                                                                                                                                                                                                           |
-| infohub/dpi/arriving/json          | Modified   | In          | [Arriving](#arrival)                                              | Public announcement of the stop; adds expiryTimestamp and zoneId field; createTimestamp was deleted in v. 1.1                                                                                             |
-| infohub/dpi/deviation/json         | Modified   | In          | [Deviation](#deviation)                                           | Multi-lingual, textual deviation messages. With references to stops/journal/lines etc.                                                                                                                    |
-| infohub/dpi/announcement/json      | Modified   | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
-| infohub/dpi/audio/json             | **New**    | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
-| infohub/dpi/c2/json                | **New**    | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
-| *infohub/dpi/connections/json*     | *Planned*  | *In*        | [*Information about connections*](#connections)                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
+| infohub/dpi/arriving/json          |            | In          | [Arriving](#arrival)                                              | Public announcement of the stop; adds expiryTimestamp and zoneId field; createTimestamp was deleted in v. 1.1                                                                                             |
+| infohub/dpi/deviation/json         |            | In          | [Deviation](#deviation)                                           | Multi-lingual, textual deviation messages. With references to stops/journal/lines etc.                                                                                                                    |
+| infohub/dpi/announcement/json      |            | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
+| infohub/dpi/audio/json             |            | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
+| infohub/dpi/c2/json                |            | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
+| *infohub/dpi/connections/json*     |  **New**  | *In*        | [*Information about connections*](#connections)                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
 | *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
 ### Vehicle Id
@@ -1091,8 +1093,6 @@ The payload is defined as an object with no structure to provide flexibility.
 | type             | string   | message type    |
 | payload          | Object   |                 |
 
-## Planned messages
-
 ### Connections
 
 | Field         | Value                                                        |
@@ -1102,8 +1102,115 @@ The payload is defined as an object with no structure to provide flexibility.
 | Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/connections/json |
 | Schema        | connections.json                                             |
 
-A snapshot of real-time data about the transit connections at the next stop.
-This message is intended to be sent before the bus comes to the next stop. It is possible that it is sent only once, but it may also be updated if the view changes.
+List of connections for the remaining stops on a journey with expected departures.
+
+#### Example payload
+```json
+{
+    "eventTimestamp": "2020-03-16T14:30:08.762206Z",
+    "expiryTimestamp": "2020-03-16T14:35:08.762206Z",
+    "nextStop": {
+        "stopPlaceId": "NSR:StopPlace:6498",
+        "quayId": "NSR:Quay:11950"
+    },
+    "journeyId": "RUT:ServiceJourney:60-138542-15631728",
+    "routeId": "RUT:Route:60-4",
+    "calls": [
+        {
+            "name": "Tøyenkirken",
+            "stopPlaceId": "NSR:StopPlace:6498",
+            "quayId": "NSR:Quay:11950",
+            "index": 4,
+            "connections": []
+        },
+        {
+            "name": "Tøyen skole",
+            "stopPlaceId": "NSR:StopPlace:6480",
+            "quayId": "NSR:Quay:11910",
+            "index": 5,
+            "connections": []
+        },
+        {
+            "name": "Tøyen",
+            "stopPlaceId": "NSR:StopPlace:6478",
+            "quayId": "NSR:Quay:11908",
+            "index": 6,
+            "connections": [
+                {
+                    "line": {
+                        "id": "RUT:Line:20",
+                        "publicCode": "20",
+                        "transportMode": "bus"
+                    },
+                    "direction": "1",
+                    "departures": [
+                        {
+                            "destination": "Galgeberg",
+                            "text": "5 min",
+                            "departureTime": "2020-03-16T14:35:37Z",
+                            "delay": "PT1M37S",
+                            "journeyId": "RUT:ServiceJourney:20-131531-15685688"
+                        },
+                        {
+                            "destination": "Galgeberg",
+                            "text": "10 min",
+                            "departureTime": "2020-03-16T14:40:58Z",
+                            "delay": "PT1M58S",
+                            "journeyId": "RUT:ServiceJourney:20-131531-15685689"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Fields
+##### Header
+| Name            | Type           |  Description                                                |
+|-----------------|----------------|-------------------------------------------------------------|
+| eventTimestamp  | string         | ISO 8601, UTC                                               |
+| expiryTimestamp | string         | ISO 8601, UTC, audio should not be played after this time   |
+| nextStop        | NextStop       | Description of trigger for the message (NextStopId, QuayId) |
+| journeyId       | string         | journey for which the message is valid                      |
+| routeId         | string         | route for which the message is valid                        |
+| calls           | array of Call  | list of future calls (stops) for which connections are provided |
+
+##### Call
+| Name            | Type               |  Description                                              |
+|-----------------|--------------------|-----------------------------------------------------------|
+| line            | string             | optional name of stop place                               |
+| direction       | string             | NSR stop place id of the call                             |
+| quayId          | string             | NSR quay id of the call                                   |
+| index           | int                | index of call in journey message                          |
+| connections     | array of Connecton | list of connections currently available at stop           |
+
+##### Connection
+| Name            | Type               |  Description                                              |
+|-----------------|--------------------|-----------------------------------------------------------|
+| line            | Line               | Description of the connecting line                        |
+| direction       | string             | Arbitrary indicator of direction, usually 1 or 2          |
+| departures      | array of Departure | NSR quay id of the call                                   |
+
+##### Line
+| Name            | Type               |  Description                                              |
+|-----------------|--------------------|-----------------------------------------------------------|
+| id              | string             | Ruter id for line in RUT:Line:nn format                   |
+| publicCode      | string             | code used to idenity quay to the public                   |
+| transportMode   | string             | bus, metro, tram, rail, water                             |
+
+##### Departure
+| Name            | Type               |  Description                                              |
+|-----------------|--------------------|-----------------------------------------------------------|
+| destination     | string             | Destination on external signage                           |
+| via             | string             | Optional secondary destination text                       |
+| text            | text               | Human-readable format for departure time                  |
+| departureTime   | text               | Optional departure time in ISO 8601, UTC                  |
+| delay           | text               | Optional delay in ISO 8601 duration format                |
+| journeyId       | text               | Optional journey id                                       |
+
+## Planned messages
 
 ### Multimedia control
 
@@ -1118,6 +1225,16 @@ Change what appears on the target surfaces of the screens.
 When we begin to deliver packages of media to the buses, for example, in connection with campaigns, we must be able to trigger playlists as needed, for example at a stop, a time, etc.
 
 ## Summary of changes
+
+### Version 2.2
+
+| Category          | Topic                                                                   | Description                                                                                                           |
+|-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| added topic       | infohub/dpi/connections/json                                            | promoted connections from planned to implemented, and provided documentation of the topic                              |
+
+
+### Version 2.1
+
 This page currently contains version 2.1 of the specification.
 
 | Category          | Topic                                                                   | Description                                                                                                           |
