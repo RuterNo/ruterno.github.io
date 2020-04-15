@@ -1212,9 +1212,6 @@ List of connections for the remaining stops on a journey with expected departure
 
 ## Planned messages
 
-A snapshot of real-time data about the transit connections at the next stop.
-This message is intended to be sent before the bus comes to the next stop. It is possible that it is sent only once, but it may also be updated if the view changes.
-
 ### Multimedia control
 
 | Field         | Value                                                           |
