@@ -1227,7 +1227,7 @@ When we begin to deliver packages of media to the buses, for example, in connect
 ## Summary of changes
 
 ### Version 2.2
-15.04.2020
+**Publication Date**: 15 Apr 2020
 
 | Category          | Topic                                                                   | Description                                                                                                           |
 |-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
