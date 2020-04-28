@@ -1234,7 +1234,9 @@ This topic is intended for applications interested in health status for the Rute
    "printerConnected":true,
    "nodAvailable":true,
    "sapiAvailable":false,
-   "loggedIn":true
+   "loggedIn":true,
+   "journeyRef":"RUT:Line:440",
+   "stopPlaceId":"NSR:StopPlace:59734"
 }
 
 ```
