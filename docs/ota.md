@@ -1247,7 +1247,9 @@ This topic is intended for applications interested in health status for the Rute
    "printerStatus":"Deksel er åpnet",
    "nodAvailable":true,
    "sapiAvailable":true,
-   "loggedIn":true
+   "loggedIn":true,
+   "journeyRef":"RUT:Line:440",
+   "stopPlaceId":"NSR:StopPlace:59734"
 }
 ```
 
@@ -1261,7 +1263,9 @@ This topic is intended for applications interested in health status for the Rute
 | printerStatus      | string   | Optional. If printerConnected is false, printerStatus might contain last errorMessage from printer if available                              |
 | nodAvailable       | boolean  | True if the app can contact NOD                                                                                                              |
 | sapiAvailable      | boolean  | True if the app can contact NOD                                                                                                              |
-| loggedIn           | boolean  | True if a user is logged into the app                                                                                                       |
+| loggedIn           | boolean  | True if a user is logged into the app                                                                                                        |
+| journeyRef         | string   | Last received journeyRef. Obtained from last received Journey message.                                                                       |
+| stopPlaceId        | boolean  | Last received stopPlaceId. Obtained from last received NextStop message with a valid Ruter zone                                              |
 
 ### RuterSalg sale result
 
