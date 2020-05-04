@@ -575,6 +575,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 #### Example payload
 ```json
 {
+  "journeyRef": "31001-2019-02-17T21:55:00+01:00",
+  "journeyId": "RUT:ServiceJourney:31-117215-13227462",
   "eventTimestamp": "2017-10-31T08:38:02.749Z",
   "route": {
     "id": "RUT:Route:31-1041",
@@ -632,6 +634,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 ##### Journey
 | Name           | Type   | Description   |
 |----------------|--------|---------------|
+| journeyRef | string | The unique Journey reference |
+| journeyId | string | The unique Journey id from TPS |
 | eventTimestamp | string | ISO 8601, UTC |
 | route          | Route  |               |
 
