@@ -634,8 +634,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 ##### Journey
 | Name           | Type   | Description   |
 |----------------|--------|---------------|
-| journeyRef | string | The unique Journey reference |
-| journeyId | string | The unique Journey id from TPS |
+| journeyRef | string | Ruters internal unique Journey reference |
+| journeyId | string | Unique Journey id |
 | eventTimestamp | string | ISO 8601, UTC |
 | route          | Route  |               |
 
