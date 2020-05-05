@@ -1,6 +1,6 @@
 # OTA Messages
 
-**Version 2.2**
+**Version 2.3**
  
 The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
 backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on. 
@@ -34,7 +34,7 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | infohub/dpi/announcement/json      |            | In          | [Other announcement](#announcement)                               | Multi-lingual textual messages                                                                                                                                                                            |
 | infohub/dpi/audio/json             |            | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
 | infohub/dpi/c2/json                |            | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
-| *infohub/dpi/connections/json*     |  **New**  | *In*        | [*Information about connections*](#connections)                   | *Real-time data for connections before arrival at the stop*                                                                                                                                               |
+| infohub/dpi/connections/json     |  **New**  | In        | [Information about connections](#connections)                   | Real-time data for connections before arrival at the stop                                                                                                                                              |
 | *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
 ### Vehicle Id
@@ -635,8 +635,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 | Name           | Type   | Description   |
 |----------------|--------|---------------|
 | eventTimestamp | string | ISO 8601, UTC |
-| journeyId | string | Ruter's external journey id|
-| journeyRef | string | Ruter's internal journey referencee |
+| journeyId | string | Ruter's external journey id |
+| journeyRef | string | Ruter's internal journey reference |
 | route          | Route  |               |
 
 ##### Route
@@ -1230,12 +1230,20 @@ When we begin to deliver packages of media to the buses, for example, in connect
 
 ## Summary of changes
 
+### Version 2.3
+**Publication Date**: 05 May 2020
+
+| Category          | Topic                                                                   | Description                                                                                                           |
+|-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| added field       | infohub/dpi/journey/json                                           | added field journeyId - Ruter's external journey id                           |
+| added field       | infohub/dpi/journey/json                                           | added field journeyRef - Ruter's internal journey reference                         |
+
 ### Version 2.2
 **Publication Date**: 15 Apr 2020
 
 | Category          | Topic                                                                   | Description                                                                                                           |
 |-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| added topic       | infohub/dpi/connections/json                                            | promoted connections from planned to implemented, and provided documentation of the topic                              |
+| added topic       | infohub/dpi/connections/json                                            | promoted connections from planned to implemented, and provided documentation of the topic                             |
 
 
 ### Version 2.1
@@ -1245,7 +1253,7 @@ This page currently contains version 2.1 of the specification.
 | Category          | Topic                                                                   | Description                                                                                                           |
 |-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
 | added field       | infohub/dpi/journey/json                                                | added location (latitude and longitude) per stop place                                                                |
-| added field       | infohub/dpi/eta/json                                                    | the field `text` has been added for display text in DPI                                                                 |
+| added field       | infohub/dpi/eta/json                                                    | the field `text` has been added for display text in DPI                                                               |
 | changed field     | infohub/dpi/eta/json                                                    | the field `expectedArrivalTime` has been renamed `eta`                                                                    |
 | changed field     | infohub/dpi/externaldisplay/json                                        | the field `routeName` has been renamed `destination`                                                                      |
 | removed field     | infohub/dpi/arriving/json                                               | audio has been removed; see new audio/json topic                                                                      |
