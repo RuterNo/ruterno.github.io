@@ -576,6 +576,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 ```json
 {
   "eventTimestamp": "2017-10-31T08:38:02.749Z",
+  "journeyId": "RUT:ServiceJourney:31-117215-13227462",
+  "journeyRef": "31001-2019-02-17T21:55:00+01:00",
   "route": {
     "id": "RUT:Route:31-1041",
     "name": "Fornebu vest-Tonsenhagen",
@@ -633,6 +635,8 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 | Name           | Type   | Description   |
 |----------------|--------|---------------|
 | eventTimestamp | string | ISO 8601, UTC |
+| journeyId | string | Ruter's external journey id|
+| journeyRef | string | Ruter's internal journey referencee |
 | route          | Route  |               |
 
 ##### Route
