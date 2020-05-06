@@ -1,14 +1,14 @@
 # OTA Messages
 
 **Version 2.3**
- 
-The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
-backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on. 
 
-The messages are encoded as json payloads, and you can validate any payload by using the corresponding JSON schema definition found in 
+The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
+backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on.
+
+The messages are encoded as json payloads, and you can validate any payload by using the corresponding JSON schema definition found in
 Ruters repositories.  
 
-MQTT is used as the transport mechanism for all OTA messages. MQTT is a simple pub-sub based messaging protocol, that works on top of TCP/IP as well as on websockets. 
+MQTT is used as the transport mechanism for all OTA messages. MQTT is a simple pub-sub based messaging protocol, that works on top of TCP/IP as well as on websockets.
 
 ## Summary
 The summary refers to topics on board the buses. See below for mapping of the local topic to the bridged topic.
@@ -35,6 +35,10 @@ Changes noted in status are based on a comparison with v1.1 of the OTA Messages 
 | infohub/dpi/audio/json             |            | In          | [Audio message](#audio-message)                                   | Audio messages to be played on the bus. Can contain an array of messages with different target speakers and codecs.                                                                                       |
 | infohub/dpi/c2/json                |            | In          | [DPI command and control messages](#command-and-controls-channel) | Command and control messages to be used by DPI, from Ruter backend.                                                                                                                                       |
 | infohub/dpi/connections/json     |  **New**  | In        | [Information about connections](#connections)                   | Real-time data for connections before arrival at the stop                                                                                                                                              |
+| *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*
+| infohub/sales/diagnostics/json               |       **New**     | Out          | [RuterSalg diagnostics](#rutersalg-diagnostics) | Diagnostics messages sent from the RuterSalg app
+| infohub/sales/saleresult/json                |       **New**     | Out          | [RuterSalg sale result](#rutersalg-sale-result) | Messages containing information about each sale made in the RuterSalg app
+| infohub/sales/validationresult/json                |    **New**        | Out          | [RuterSalg validation result](#rutersalg-validation-result) | Messages containing information about each validation performed in the RuterSalg app Ruter                                                                                                                                                 |
 | *infohub/dpi/digitalsignage/json*  | *Planned*  | *In*        | [*Multimedia control*](#multimedia-control)                       | *Message that controls the multimedia surfaces on board*                                                                                                                                                  |
 
 ### Vehicle Id
@@ -113,7 +117,7 @@ Vehicle journey is required and helps track cases where blocks are interrupted a
 
 Start time must match the scheduled local time, and is therefore typically CE(S)T.
 
-### Complete block 
+### Complete block
 
 | Field         | Value                                               |
 |---------------|-----------------------------------------------------|
@@ -283,7 +287,7 @@ Report of passenger count per door to PTA BO.
 | DEFECT  |             |
 | OTHER   |             |
 
-### Stop signal status 
+### Stop signal status
 
 | Field         | Value                                                |
 |---------------|------------------------------------------------------|
@@ -428,7 +432,7 @@ The message containing several PGNs is split up into several MQTT messages. SPNs
 Report to PTA BO about a screen.
 
 The DPI application itself produces diagnostic messages.
-The payload is defined as an object with no pre-defined structure to provide flexibility. 
+The payload is defined as an object with no pre-defined structure to provide flexibility.
 
 The types illustrated below are example of possible messages.
 The types are under discussion but will be generated entirely by the DPI application and consumed by the PTA BO.
@@ -532,7 +536,7 @@ This message is generated by Ruter when approaching an intersection or, when a s
 
 Notification message sent to the MADT (Multi-Application Driver Terminal) device inside the bus. To be used to inform the bus driver from the Ruter backoffice.
 
-The text message may contain the "Line Feed" character (\n), indicating line breaks. 
+The text message may contain the "Line Feed" character (\n), indicating line breaks.
 
 #### Example payload
 ```json
@@ -685,7 +689,7 @@ The coordinates of the stop have been added to facilitate backup calculations fo
 | BOAT  |                                    |
 | OTHER |                                    |
 
-### Next stop 
+### Next stop
 
 | Field         | Value                                                     |
 |---------------|-----------------------------------------------------------|
@@ -759,7 +763,7 @@ StopPointRef was replaced by StopPlaceId in v. 1.1. The field "text" was added t
 | stopPlaceId | string | NSR StopPlace code          |
 | text        | string | display text for passengers |
 
-### Information for external destination display 
+### Information for external destination display
 
 | Field         | Value                                                            |
 |---------------|------------------------------------------------------------------|
@@ -768,7 +772,7 @@ StopPointRef was replaced by StopPlaceId in v. 1.1. The field "text" was added t
 | Bridged topic | &lt;recipient&gt;/ruter/&lt;vehicleid&gt;/itxpt/ota/dpi/externaldisplay/json |
 | Schema        | externaldisplay.json                                             |
 
-Message to be shown on the external destination display. Usually line number (publicCode) and routeName, with support for alternative message. 
+Message to be shown on the external destination display. Usually line number (publicCode) and routeName, with support for alternative message.
 
 >Note: external destination displays have previously been referred to as "sign boxes".
 
@@ -803,7 +807,7 @@ Message to be shown on the external destination display. Usually line number (pu
 Notice to passengers that the bus is approaching a stop.
 StopPointRef was replaced by StopPlaceId in v. 1.1. The field createTimestamp was removed in v. 1.1. Multi-lingual suoport added in v.1.2
 
-The field expiryTimestamp has been added to to prevent delayed messages from being played after a certain amount of time. 
+The field expiryTimestamp has been added to to prevent delayed messages from being played after a certain amount of time.
 
 #### Example payload
 ```json
@@ -905,7 +909,7 @@ Responsibility for the use of the ref field lies entirely with the DPI applicati
 | Schema        | announcement.json                                             |
 
 Announcement to the passengers (ad hoc).
-Message contains a reference to the scope of the message, if applicable. Typically NSR stopplaceid / lineId or similar. 
+Message contains a reference to the scope of the message, if applicable. Typically NSR stopplaceid / lineId or similar.
 
 #### Example payload
 ```json
@@ -1022,10 +1026,10 @@ Topic used exclusively to transmit audio messages to be played by the speaker sy
 Speaker types corresponds to the ITxPT-standard, S01v2.0.1_2017, Vehicle Installation Requirements Specification, page 32.
 
 #### Decibel levels
-The table below describes the approximate decibel levels the sound system should be producing both inside and outside of the vehicle. 
+The table below describes the approximate decibel levels the sound system should be producing both inside and outside of the vehicle.
 
-A message volume of 70 is what you should expect during normal operations. When adjusting the decibel levels, your priority should be to best fit the decibel level to the normal operation range. 
-A message volume level of 100 is only to be used in the event of an emergency situation. 
+A message volume of 70 is what you should expect during normal operations. When adjusting the decibel levels, your priority should be to best fit the decibel level to the normal operation range.
+A message volume level of 100 is only to be used in the event of an emergency situation.
 
 | Speaker    | Message volume | Decibel volume                                 |
 |------------|----------------|------------------------------------------------|
@@ -1047,7 +1051,7 @@ A message volume level of 100 is only to be used in the event of an emergency si
 
 Command and control messages from Ruter Data Platform.
 
-The c2 channels is reserved for command and control messages originated by Ruter. Typical use cases include: 
+The c2 channels is reserved for command and control messages originated by Ruter. Typical use cases include:
 
 - Diagnostics / debugging
  - Trigger transfer of debug information
@@ -1056,7 +1060,7 @@ The c2 channels is reserved for command and control messages originated by Ruter
 - Content
  - Trigger display of campaign
 
-The payload is defined as an object with no structure to provide flexibility. 
+The payload is defined as an object with no structure to provide flexibility.
 
 #### Example payload - DEBUG
 ```json
@@ -1214,6 +1218,371 @@ List of connections for the remaining stops on a journey with expected departure
 | delay           | text               | Optional delay in ISO 8601 duration format                |
 | journeyId       | text               | Optional journey id                                       |
 
+### RuterSalg diagnostics
+
+| Field         | Value                                                                            |
+|---------------|----------------------------------------------------------------------------------|
+| Name          | RuterSalg diagnostics                                                            |
+| Local topic   | infohub/sales/diagnostics/json                                                   |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/infohub/sales/diagnostics/json  |
+| Schema        | salediagnostics.json                                                             |
+
+Diagnostics message generated by RuterSalg. More details about fields can be found at https://ruterwiki.ruter.no/display/PNS/MQTT+Topics+consumed+and+produced+by+RuterSalg.
+
+This topic is intended for applications interested in health status for the RuterSalg application on each bus. The health status is intended both as a real time surveillance of health status for each individual bus as well as for aggregating data per operator to see larger, more general issues. The topic can also, when enriched by other data, determine whether or not RuterSalg was used and working on a specific departure.
+
+#### Example payload 1
+```json
+{
+   "eventTimestamp":"2020-04-22T10:30:03.548Z",
+   "nfcReaderConnected":false,
+   "printerConnected":true,
+   "nodAvailable":true,
+   "sapiAvailable":false,
+   "loggedIn":true,
+   "journeyId":"RUT:ServiceJourney:31-117215-13227462",
+   "stopPlaceId":"NSR:StopPlace:59734"
+}
+
+```
+#### Example payload 2
+```json
+{
+   "eventTimestamp":"2020-04-27T12:56:47.110Z",
+   "nfcReaderConnected":false,
+   "printerConnected":false,
+   "printerStatus":"Deksel er åpnet",
+   "nodAvailable":true,
+   "sapiAvailable":true,
+   "loggedIn":true,
+   "journeyId":"RUT:ServiceJourney:31-117215-13227462",
+   "stopPlaceId":"NSR:StopPlace:59734"
+}
+```
+
+#### Fields
+
+| Name               | Type     | Description                                                                                                                                  |
+|--------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| eventTimestamp     | string   | ISO 8601, UTC. The time of this diagnostics message generation                                                                               |
+| nfcReaderConnected | boolean  | True if the NFC reader is discovered and opened by the app                                                                                   |
+| printerConnected   | boolean  | True if the printer is discovered and open, and if the previous communication with the printer was a print operation the print was a success |
+| printerStatus      | string   | Optional. If printerConnected is false, printerStatus might contain last errorMessage from printer if available                              |
+| nodAvailable       | boolean  | True if the app can contact NOD                                                                                                              |
+| sapiAvailable      | boolean  | True if the app can contact NOD                                                                                                              |
+| loggedIn           | boolean  | True if a user is logged into the app                                                                                                        |
+| journeyId          | string   | Last received journeyId. Obtained from last received Journey message.                                                                        |
+| stopPlaceId        | boolean  | Last received stopPlaceId. Obtained from last received NextStop message with a valid Ruter zone                                              |
+
+### RuterSalg sale result
+
+| Field         | Value                                                                          |
+|---------------|--------------------------------------------------------------------------------|
+| Name          | RuterSalg sale result                                                          |
+| Local topic   | infohub/sales/saleresult/json                                                  |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/infohub/sales/saleresult/json |
+| Schema        | saleresult.json                                                                |
+
+Sale result message generated by RuterSalg. More details about fields can be found at https://ruterwiki.ruter.no/display/PNS/MQTT+Topics+consumed+and+produced+by+RuterSalg.
+
+This topic is intended as a live view of sales, and must not be used as the complete truth. This is done elsewhere. This topic is intended for health surveillance, for anyone interesting in whether or not tickets are being sold, and also how many and what kind of tickets.
+
+Some operators have suggested that they might be interested in using this topic to display sales results on screens separate from the RuterSalg application, intended as information to the travelers purchasing tickets. This topic is well suited for this use case.
+
+#### Example payload 1 - single ticket paper
+```json
+{
+   "eventTimestamp":"2020-04-27T15:09:24.595Z",
+   "paymentMethod":45,
+   "mediaType":4,
+   "vendorId":"x130",
+   "tickets":[
+      {
+         "externalId":"c20db6e0-c56c-4a41-b58e-450b1d457510",
+         "numberOfZonesToPay":1,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21526,
+               "profileId":1
+            }
+         ],
+         "price":5700,
+         "productTemplateId":18,
+         "selectedZones":null,
+         "startDate":"2020-04-27T15:09:24.600Z",
+         "zoneFrom":"2V",
+         "zoneTo":null,
+         "zoneVia":null
+      }
+   ]
+}
+
+```
+#### Example payload 2 - 3 paper tickets in a single sale paid with cash
+```json
+{
+   "eventTimestamp":"2020-04-27T15:10:53.488Z",
+   "paymentMethod":45,
+   "mediaType":4,
+   "vendorId":"x130",
+   "tickets":[
+      {
+         "externalId":"a22f2d51-bb63-41b3-aea9-ed47e556d737",
+         "numberOfZonesToPay":1,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21526,
+               "profileId":1
+            },
+            {
+               "numberOfPassengers":1,
+               "productId":21531,
+               "profileId":2
+            }
+         ],
+         "price":7600,
+         "productTemplateId":18,
+         "selectedZones":null,
+         "startDate":"2020-04-27T15:10:53.491Z",
+         "zoneFrom":"4N",
+         "zoneTo":null,
+         "zoneVia":null
+      },
+      {
+         "externalId":"e804be2f-f56a-4861-9151-fa148f9e4461",
+         "numberOfZonesToPay":1,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21536,
+               "profileId":4
+            }
+         ],
+         "price":1900,
+         "productTemplateId":18,
+         "selectedZones":null,
+         "startDate":"2020-04-27T15:10:53.491Z",
+         "zoneFrom":"4N",
+         "zoneTo":null,
+         "zoneVia":null
+      },
+      {
+         "externalId":"4f9a8c6f-f208-46d5-9a90-97526281622e",
+         "numberOfZonesToPay":1,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21526,
+               "profileId":1
+            }
+         ],
+         "price":5700,
+         "productTemplateId":18,
+         "selectedZones":null,
+         "startDate":"2020-04-27T15:10:53.491Z",
+         "zoneFrom":"4N",
+         "zoneTo":null,
+         "zoneVia":null
+      }
+   ]
+}
+```
+#### Example payload 3 - additional ticket paper paid with cash
+```json
+{
+   "eventTimestamp":"2020-04-27T15:17:33.244Z",
+   "paymentMethod":45,
+   "mediaType":4,
+   "vendorId":"x130",
+   "tickets":[
+      {
+         "externalId":"10af3688-0c17-47de-bcbc-d76d1857c794",
+         "numberOfZonesToPay":2,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21451,
+               "profileId":1
+            },
+            {
+               "numberOfPassengers":1,
+               "productId":21461,
+               "profileId":4
+            }
+         ],
+         "price":7200,
+         "productTemplateId":19,
+         "selectedZones":[
+            "2Ø",
+            "3Ø"
+         ],
+         "startDate":"2020-04-27T15:17:33.247Z",
+         "zoneFrom":"1",
+         "zoneTo":"3Ø",
+         "zoneVia":"4SØ"
+      }
+   ]
+}
+```
+#### Example payload 4 - ticket travel card paid with travel money
+```json
+{
+   "eventTimestamp":"2020-04-27T15:24:09.714Z",
+   "paymentMethod":50,
+   "mediaType":1,
+   "vendorId":"x130",
+   "tickets":[
+      {
+         "externalId":"35fa95ea-a270-4ad1-b36e-0be2629bb724",
+         "numberOfZonesToPay":1,
+         "passengers":[
+            {
+               "numberOfPassengers":1,
+               "productId":21526,
+               "profileId":1
+            },
+            {
+               "numberOfPassengers":1,
+               "productId":21531,
+               "profileId":2
+            }
+         ],
+         "price":5600,
+         "productTemplateId":18,
+         "selectedZones":null,
+         "startDate":"2020-04-27T15:24:09.719Z",
+         "zoneFrom":"2S",
+         "zoneTo":null,
+         "zoneVia":null
+      }
+   ]
+}
+```
+
+#### Fields
+##### Header
+| Name             | Type    | Description                                                                             |
+|------------------|---------|-----------------------------------------------------------------------------------------|
+| eventTimestamp   | string  | ISO 8601, UTC. The time of this sale result message generation                          |
+| paymentMethod    | integer  | Payment method used for sale. 45 = CASH, 46 = CARD, 50 = TPURSE                        |
+| mediaType          | integer  | Media used for sale. 1 = DESFIRE ("reisekort"), 3 = ULTRALIGHT ("impuls"), 4 = PAPER |
+| vendorId          | string  | User who sold the ticket                                                               |
+| tickets | Ticket[]  | Array of tickets in this sale                                                                  |
+
+##### Ticket
+| Name               | Type        | Description                                                       |
+|--------------------|-------------|-------------------------------------------------------------------|
+| numberOfZonesToPay | integer     | Number of zones to pay for                                        |
+| passengers         | Passenger[] | Passengers in this ticket                                         |
+| price              | integer     | price of ticket (in øre)                                          |
+| startDate          | int         | ISO 8601, UTC                                                     |
+| zoneFrom           | string      | Start zone                                                        |
+| zoneTo             | string      | Destination zone                                                  |
+| zoneVia            | string      | Via zone                                                          |
+| externalId         | string      | External reference to ticket                                      |
+| productTemplateId  | long        | Type of ticket                                                    |
+| selectedZones      | string[]    | Array of zones of underlying ticket (for additional tickets only) |
+
+###### Passenger
+| Name               | Type    | Description                    |
+|--------------------|---------|--------------------------------|
+| numberOfPassengers | integer | Quantity of this passenger     |
+| productId          | integer | Product ID of this passenger   |
+| profileId          | integer | Profile ID of this passenger   |
+
+### RuterSalg validation result
+
+| Field         | Value                                                                                   |
+|---------------|-----------------------------------------------------------------------------------------|
+| Name          | RuterSalg validation result                                                             |
+| Local topic   | infohub/sales/validationresult/json                                                     |
+| Bridged topic | ruter/&lt;sender&gt;/&lt;vehicleid&gt;/itxpt/ota/infohub/sales/validationresult/json    |
+| Schema        | validationresult.json                                                                   |
+
+Validation result message generated by RuterSalg. This topic is intended as a live view of validation. This topic is intended for health surveillance, for anyone interesting in whether or not validations are being performed, as well as validation results.
+
+#### Example payload 1
+```json
+{
+   "eventTimestamp":"2020-04-28T06:37:40.196Z",
+   "inspectionResult":{
+      "code":411,
+      "message":"Validering feilet - Utløpt billett ",
+      "validity":"INVALID"
+   },
+   "ledCommand":{
+      "color":"red",
+      "duration":5000,
+      "pause":50,
+      "repeat":1
+   },
+   "buzzerCommand":{
+      "frequency":784,
+      "duration":60,
+      "pause":50,
+      "repeat":4
+   }
+}
+
+```
+#### Example payload 2
+```json
+{
+   "eventTimestamp":"2020-04-28T06:38:45.219Z",
+   "inspectionResult":{
+      "code":205,
+      "message":"Billett Aktivert 28/04/2020 09:38 Enkeltbillett 1 Voksen ",
+      "validity":"VALID"
+   },
+   "ledCommand":{
+      "color":"green",
+      "duration":5000,
+      "pause":50,
+      "repeat":1
+   },
+   "buzzerCommand":{
+      "frequency":1320,
+      "duration":200,
+      "pause":50,
+      "repeat":1
+   }
+}
+```
+
+#### Fields
+##### Header
+| Name             | Type              | Description                                                       |
+|------------------|-------------------|-------------------------------------------------------------------|
+| eventTimestamp   | string            | ISO 8601, UTC. The time of this diagnostics message generation    |
+| buzzerCommand    | BuzzerCommand     | Buzzer sound result of validation                                 |
+| inspectionResult | InspectionResult  | Validation result details                                         |
+| ledCommand       | LedCommand        | Color result of validation                                        |
+
+##### BuzzerCommand
+| Name             | Type    | Description                                                                 |
+|------------------|---------|-----------------------------------------------------------------------------|
+| duration   | integer  |	Duration of each buzz in ms                                                      |
+| frequency  | integer  | Frequency to be used for buzzes                                                  |
+| pause      | integer  | Pause between each buzz in ms                                                    |
+| repeat     | integer  | The number of times the buzz should be repeated                                  |
+
+##### InspectionResult
+| Name       | Type    | Description                                                                                                         |
+|------------|---------|---------------------------------------------------------------------------------------------------------------------|
+| code       | integer | Validity code returned by NOD                                                                                       |
+| message    | string  | Message to be displayed to user                                                                                     |
+| validity   | string  | Can be either VALID or INVALID, might change in the future (by for example adding an UNKNOWN for students/seniors)  |
+
+##### LedCommand
+| Name             | Type    | Description                                                                       |
+|------------------|---------|-----------------------------------------------------------------------------------|
+| color            | String  |	Color to be displayed ("red" and "green" are the possible values as of now)      |
+| duration         | integer | 	Duration in ms the color should be displayed                                     |
+| pause            | integer | 	How long the pause should be between each time the color is displayed            |
+| repeat           | integer | The number of times the color should be displayed                                 |
+
 ## Planned messages
 
 ### Multimedia control
@@ -1231,12 +1600,16 @@ When we begin to deliver packages of media to the buses, for example, in connect
 ## Summary of changes
 
 ### Version 2.3
-**Publication Date**: 05 May 2020
+
+**Publication Date**: 06 May 2020
 
 | Category          | Topic                                                                   | Description                                                                                                           |
 |-------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
 | added field       | infohub/dpi/journey/json                                           | added field journeyId - Ruter's external journey id                           |
 | added field       | infohub/dpi/journey/json                                           | added field journeyRef - Ruter's internal journey reference                         |
+| added topic       | infohub/sales/diagnostics/json                                          | Added documentation for topic, including fields, examples and usage.     |
+| added topic       | infohub/sales/saleresult/json                                           | Added documentation for topic, including fields, examples and usage.     |
+| added topic       | infohub/sales/validationresult/json                                     | Added documentation for topic, including fields, examples and usage.     |
 
 ### Version 2.2
 **Publication Date**: 15 Apr 2020
@@ -1296,10 +1669,10 @@ In version 2.0.1 we specify that &lt;vehicleid&gt; shall be understood to be the
 Link to JSON schemas for all OTA payloads going back and forth between PTO and PTA:
 * [OTA Message schemas](https://github.com/RuterNo/ota-schemas/tree/master/schemas/mqtt)
 
-?> _Notice_ The schemas are of version 0.7 of the JSON Schema standard, which is still under development. For more information, see: 
+?> _Notice_ The schemas are of version 0.7 of the JSON Schema standard, which is still under development. For more information, see:
 [https://json-schema.org](https://json-schema.org/specification.html)
 
 ## Example payloads
 
-Link to example OTA message payloads: 
+Link to example OTA message payloads:
 * [OTA Message payloads](https://github.com/RuterNo/ota-schemas/tree/master/examples/mqtt)
