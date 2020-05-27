@@ -1,6 +1,6 @@
 # OTA Messages
 
-**Version 2.3**
+**Version 2.4**
 
 The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
 backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on.
@@ -1593,6 +1593,11 @@ Change what appears on the target surfaces of the screens.
 When we begin to deliver packages of media to the buses, for example, in connection with campaigns, we must be able to trigger playlists as needed, for example at a stop, a time, etc.
 
 ## Summary of changes
+
+### Version 2.4
+| Category          | Topic                                                                   | Description                                                              |
+|-------------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| changed field     | infohub/sales/diagnostics/json                                          | Changed journeyId to journeyRef.                                         |
 
 ### Version 2.3
 **Publication Date**: 28 Apr 2020
