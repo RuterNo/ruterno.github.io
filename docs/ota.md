@@ -1,6 +1,6 @@
 # OTA Messages
 
-**Version 2.3**
+**Version 2.4**
 
 The OTA messages (short for "over-the-air" messages) are the payloads that flow back and forth between the operators vehicle (PTO) and Ruters
 backend services (PTA). This could be vehicle location data, journey information, estimated arrivals and so on.
@@ -1239,7 +1239,7 @@ This topic is intended for applications interested in health status for the Rute
    "nodAvailable":true,
    "sapiAvailable":false,
    "loggedIn":true,
-   "journeyId":"RUT:ServiceJourney:31-117215-13227462",
+   "journeyRef":"42911-2020-05-25T16:42:00+02:00",
    "stopPlaceId":"NSR:StopPlace:59734"
 }
 
@@ -1254,7 +1254,7 @@ This topic is intended for applications interested in health status for the Rute
    "nodAvailable":true,
    "sapiAvailable":true,
    "loggedIn":true,
-   "journeyId":"RUT:ServiceJourney:31-117215-13227462",
+   "journeyRef":"42911-2020-05-25T16:42:00+02:00",
    "stopPlaceId":"NSR:StopPlace:59734"
 }
 ```
@@ -1270,7 +1270,7 @@ This topic is intended for applications interested in health status for the Rute
 | nodAvailable       | boolean  | True if the app can contact NOD                                                                                                              |
 | sapiAvailable      | boolean  | True if the app can contact NOD                                                                                                              |
 | loggedIn           | boolean  | True if a user is logged into the app                                                                                                        |
-| journeyId          | string   | Last received journeyId. Obtained from last received Journey message.                                                                        |
+| journeyRef          | string   | Last received journeyRef. Obtained from last received Journey message.                                                                        |
 | stopPlaceId        | boolean  | Last received stopPlaceId. Obtained from last received NextStop message with a valid Ruter zone                                              |
 
 ### RuterSalg sale result
@@ -1597,6 +1597,11 @@ Change what appears on the target surfaces of the screens.
 When we begin to deliver packages of media to the buses, for example, in connection with campaigns, we must be able to trigger playlists as needed, for example at a stop, a time, etc.
 
 ## Summary of changes
+
+### Version 2.4
+| Category          | Topic                                                                   | Description                                                              |
+|-------------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| changed field     | infohub/sales/diagnostics/json                                          | Changed journeyId to journeyRef.                                         |
 
 ### Version 2.3
 
