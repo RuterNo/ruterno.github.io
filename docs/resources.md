@@ -7,9 +7,9 @@ experience for passengers.
 
 This manifest should be used in a similar way as with the packages and mqtt manifests. The 
 manifest should be checked at least once a day, after 16:00, and if there is a new version
-of a resources, start using it. There are no contractual requirements about when they should
-be used on vehicles, but the intention is similar to the DPI application and MQTT, they should
-be in use by the next day. No SLA applies to resources, currently.
+of a resources, download and start using it. There are no contractual requirements about 
+when they should be used on vehicles. No SLA penalties apply in this case. But the intention 
+is similar to the DPI application and MQTT: they should be in use by the next day. 
 
 ## Locations
 
@@ -20,6 +20,16 @@ The manifest will be available at the following URLs:
 | test | https://bus-dpi.transhub.io/test/resources.json |
 | stage | https://bus-dpi.transhub.io/stage/resources.json |
 | prod | https://bus-dpi.transhub.io/prod/resources.json |
+
+## Resources Provided
+
+This list will be updated over time, as new resources are included. The *Name* in the table below 
+corresponds to the name in the resource item in the JSON, which is illustrated in an example later on,
+and in the field documentation for the Resource type.
+
+| Name | Type | Description | Formats |
+|---|---|---|---|
+| stopRequestedSound | audio | the sound that should be played when a passenger presses the stop button | either mp3 or opus files |
 
 ## Example
 
@@ -63,4 +73,14 @@ An example of the contents of the maifest looks like:
 | sha256 | string | A SHA 256 hash of the resource, which can be used to verify the validity of the downloaded file |
 | version | string | a version date in ISO date/time format |
 | description | string | description of the content of the resource, e.g. the original file name of the resource; the field is optional |
+
+## Schema and Example
+
+A schema is available at: https://github.com/RuterNo/ota-schemas/blob/master/schemas/cdn/dpi-resources-manifest.json.
+
+A corresponding example is provided here: https://github.com/RuterNo/ota-schemas/blob/master/exmaples/cdn/resources.json.
+
+
+
+
 
