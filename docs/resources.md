@@ -43,7 +43,7 @@ An example of the contents of the maifest looks like:
 ### Root
 
 | Name | Values | Description |
-| --- | --- |
+| --- | --- | --- |
 | timestamp | ISO date/time stamp | Time the new manifest is released |
 | environment | test/stage/prod | Which environment the manifest applies to |
 | resources | list of type Resource | a collection of one or more resources that Ruter shares |
@@ -51,12 +51,12 @@ An example of the contents of the maifest looks like:
 ### Resource
 
 | Name | Values | Description |
-| --- | --- |
+|------|--------|-------------|
 | name | string | names that Ruter defines, only "stopRequestedSound" is currently defined |
 | type | string | types that Ruter supports, only "audio" is currently defined |
 | contentType | MIME type | a MIME type that corresponds to the type of the resource that is shared |
 | url | URL | the location of where the resource can be fetched, the file name has a time stamp part that corresponds to its version |
 | sha256 | string | A SHA 256 hash of the resource, which can be used to verify the validity of the downloaded file |
-| version | string | A SHA 256 hash of the resource, which can be used to verify the validity of the downloaded file |
+| version | string | a version date in ISO date/time format |
 | description | string | description of the content of the resource, e.g. the original file name of the resource |
 
