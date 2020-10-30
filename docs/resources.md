@@ -11,11 +11,15 @@ of a resources, start using it. There are no contractual requirements about when
 be used on vehicles, but the intention is similar to the DPI application and MQTT, they should
 be in use by the next day. No SLA applies to resources, currently.
 
-## Location
+## Locations
 
 The manifest will be available at the following URLs:
 
-
+| Environment | URL |
+| --- | --- |
+| test | https://bus-dpi.transhub.io/test/resources.json |
+| stage | https://bus-dpi.transhub.io/stage/resources.json |
+| prod | https://bus-dpi.transhub.io/prod/resources.json |
 
 ## Example
 
@@ -58,5 +62,5 @@ An example of the contents of the maifest looks like:
 | url | URL | the location of where the resource can be fetched, the file name has a time stamp part that corresponds to its version |
 | sha256 | string | A SHA 256 hash of the resource, which can be used to verify the validity of the downloaded file |
 | version | string | a version date in ISO date/time format |
-| description | string | description of the content of the resource, e.g. the original file name of the resource |
+| description | string | description of the content of the resource, e.g. the original file name of the resource; the field is optional |
 
