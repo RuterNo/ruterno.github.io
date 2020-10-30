@@ -2,7 +2,7 @@
 
 The resources manifest is means of descibing which resources Ruter is sharing with operators. 
 Initially, the list will contain an audio file intended to be played when a stop is requested
-on board the bus. It allows us to change the sound over time and ensure a uniform aural 
+on board the vehicle. It allows us to change the sound over time and ensure a uniform aural 
 experience for passengers.
 
 This manifest should be used in a similar way as with the packages and mqtt manifests. The 
