@@ -21,7 +21,7 @@ This site has been created using [Docsify](https://docsify.js.org/). Please see 
 ### Converting to pdf
 
 Make sure you have `nodejs` installed:
- `npm run install && npm run convert`
+ `npm install && npm run convert`
 
 This will create `pdf/readme.pdf`
 
