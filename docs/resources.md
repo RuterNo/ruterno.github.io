@@ -78,7 +78,7 @@ An example of the contents of the maifest looks like:
 
 A schema is available at: https://github.com/RuterNo/ota-schemas/blob/master/schemas/cdn/dpi-resources-manifest.json.
 
-A corresponding example is provided here: https://github.com/RuterNo/ota-schemas/blob/master/exmaples/cdn/resources.json.
+A corresponding example is provided here: https://github.com/RuterNo/ota-schemas/blob/master/examples/cdn/resources.json.
 
 
 
