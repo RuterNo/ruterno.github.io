@@ -120,16 +120,16 @@ The following is a summary of the messages
 }
 ```
 
-### Journey
+### TSP ack
 
 |               |                                                     |
 |---------------|-----------------------------------------------------|
-| Name          | Journey                                             |
-| topic         | bym/ruter/[vehicleRef]/journey                      |
-| qos           | 1                                                   |
-| retained      | true                                                |
-| frequency     | approx. 1/hour per vehicle                          |
-| Schema        | journey.json                                        |
+| Name          | TSP ack                                             |
+| topic         | ruter/bym/[vehicleRef]/tspack                       |
+| qos           | 0                                                   |
+| retained      | false                                               |
+| frequency     | approx. 1/min per vehicle?                          |
+| Schema        | tspack.json                                         |
 
 #### Fields
 
