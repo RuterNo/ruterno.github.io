@@ -48,26 +48,7 @@ The following is a summary of the messages
 | occupancyPercent    | integer | The occupancy of the bus delivered in percent.|
 | delaySeconds        | integer | The current delay of the vehicle compared to the plan|
 | doorsOpen           | boolean | true if one or more doors are open|
-{
-  "eventTimestamp": "2019-10-15T09:06:10.285218Z",
-  "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
-  "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
-  "vehicleRef": "XYZ0123X0X0123456",
-  "journeyPatternRef": "RUT:JourneyPattern:123",
-  "line": "36E",
-  "journeyPattern": [
-    {
-      "order": 1,
-      "quayRef": "NSR:Quay:123",
-      "lineString": []
-    },
-    {
-      "order": 2,
-      "quayRef": "NSR:Quay:1234",
-      "lineString": [[10.7522, 59.9139], [10.7522, 59.9139]]
-    }
-  ]
-}
+
 #### Example payload
 ```json
 {
