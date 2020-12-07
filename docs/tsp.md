@@ -23,9 +23,8 @@ The following is a summary of the messages
 
 ### Vehicle monitoring
 
-|               |                                                     |
-|---------------|-----------------------------------------------------|
 | Name          | Vehicle monitoring                                   |
+|---------------|-----------------------------------------------------|
 | topic         | bym/ruter/[vehicleRef]/vm                           |
 | qos           | 0                                                   |
 | retained      | false                                               |
@@ -68,9 +67,8 @@ The following is a summary of the messages
 
 ### Journey
 
-|               |                                                     |
-|---------------|-----------------------------------------------------|
 | Name          | Journey                                             |
+|---------------|-----------------------------------------------------|
 | topic         | bym/ruter/[vehicleRef]/journey                      |
 | qos           | 1                                                   |
 | retained      | true                                                |
@@ -122,9 +120,8 @@ The following is a summary of the messages
 
 ### TSP ack
 
-|               |                                                     |
-|---------------|-----------------------------------------------------|
 | Name          | TSP ack                                             |
+|---------------|-----------------------------------------------------|
 | topic         | ruter/bym/[vehicleRef]/tspack                       |
 | qos           | 0                                                   |
 | retained      | false                                               |
