@@ -2,6 +2,7 @@
 
 * [Home](README.md)
 * [OTA Messages](docs/ota.md)
+* [TSP Messages](docs/tsp.md)
 * [MQTT](docs/mqtt.md)
 * [Resources](docs/resources.md)  
 * [Sample code](docs/sample_code.md)
