@@ -15,17 +15,17 @@ The following is a summary of the messages
 
 | Local topic                        | Change     | Receiver    | Name                                     | Comments                                                                                                                                                                                                  |
 |------------------------------------|------------|-------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bym/ruter/[vehicleRef]/vm          |-           | BYM         | [VehicleMonitoring](#VehicleMonitoring)  |                                                                                                                                                                                                           |
+| bym/ruter/[vehicleRef]/vm          |-           | BYM         | [Vehicle monitoring](#Vehicle-monitoring)  |                                                                                                                                                                                                           |
 | bym/ruter/[vehicleRef]/journey     |-           | BYM         | [Journey](#Journey)                      |                                                                                                                                                                                                           |
-| ruter/bym/[vehcileRef]/tspack      |-           | Ruter       | [TSP ack](#TSPack)                       |                                                                                                                                                                                                           |
+| ruter/bym/[vehicleRef]/tspack      |-           | Ruter       | [TSP ack](#TSP-ack)                       |                                                                                                                                                                                                           |
 
 ## Description of messages
 
-### VehicleMonitoring
+### Vehicle monitoring
 
 |               |                                                     |
 |---------------|-----------------------------------------------------|
-| Name          | VehicleMonitoring                                   |
+| Name          | Vehicle monitoring                                   |
 | topic         | bym/ruter/[vehicleRef]/vm                           |
 | qos           | 0                                                   |
 | retained      | false                                               |
@@ -39,7 +39,7 @@ The following is a summary of the messages
 | eventTimestamp      | string  | Timestamp of the event that triggered this message. ISO 8601 UTC.|
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
-| vehicleRef          | string  | Reference of the vehicle. 16-character VIN or 8 character number.|
+| vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
 | journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving.|
 | quayRef	          | string  | Reference to the quay that the vehicle is currently at or driving towards.|
 | order               | integer | The order of the quay that the vehicle is currently at or driving towards|
@@ -84,7 +84,7 @@ The following is a summary of the messages
 | eventTimestamp      | string  | Timestamp of the event that triggered this message. ISO 8601 UTC.|
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
-| vehicleRef          | string  | Reference of the vehicle. 16-character VIN or 8 character number.|
+| vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
 | journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving.|
 | line  	          | string  | Line number|
 | journeyPattern      | array   | Array of Links (see below) The complete journeyPattern the vehicle is to drive |
@@ -138,7 +138,7 @@ The following is a summary of the messages
 | eventTimestamp      | string  | Timestamp of the event that triggered this message. ISO 8601 UTC.|
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
-| vehicleRef          | string  | Reference of the vehicle. 16-character VIN or 8 character number.|
+| vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
 | signalRef           | string  | Reference to the signal that was triggered|
 | signalName          | string  | Name of the signal/crossroads|
 | signalPosition      | geoJson | Coordinates of the signal that was triggered, as defined by GeoJson type Point: [longitude, latitude]|
@@ -163,5 +163,5 @@ The following is a summary of the messages
 Link to JSON schemas and examples for all messages:
 * [TSP MQTT schemas](https://github.com/RuterNo/tsp-mqtt-schemas)
 
-?> _Notice_ The schemas are of version 0.7 of the JSON Schema standard, which is still under development. For more information, see:
+_Notice_ The schemas are of version 0.7 of the JSON Schema standard, which is still under development. For more information, see:
 [https://json-schema.org](https://json-schema.org/specification.html)
