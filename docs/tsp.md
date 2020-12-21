@@ -15,9 +15,9 @@ The following is a summary of the messages
 
 | Local topic                        | Change     | Receiver    | Name                                     | Comments                                                                                                                                                                                                  |
 |------------------------------------|------------|-------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bym/ruter/[vehicleRef]/vm          |-           | BYM         | [Vehicle monitoring](#Vehicle-monitoring)  |                                                                                                                                                                                                           |
-| bym/ruter/[vehicleRef]/journey     |-           | BYM         | [Journey](#Journey)                      |                                                                                                                                                                                                           |
-| ruter/bym/[vehicleRef]/tspack      |-           | Ruter       | [TSP ack](#TSP-ack)                       |                                                                                                                                                                                                           |
+| bym/ruter/[vehicleRef]/[Line]/vm   | yes        | BYM         | [Vehicle monitoring](#Vehicle-monitoring)| Line added in vm-topic. Added offJourney-flag. Position now full geoJSON object|
+| bym/ruter/[vehicleRef]/journey     | yes        | BYM         | [Journey](#Journey)                      | Added offDuty flag. LineString full geoJSON. journeyPatternRef, Line, destination, journeyPattern now nullable|
+| ruter/bym/[vehicleRef]/tspack      | yes        | Ruter       | [TSP ack](#TSP-ack)                      | Added Line and journeyPatternRef|
 
 ## Description of messages
 
@@ -25,8 +25,8 @@ The following is a summary of the messages
 
 | | |
 |-------------|-------------|
-| Name          | Vehicle monitoring                                   |
-| topic         | bym/ruter/[vehicleRef]/vm                           |
+| Name          | Vehicle monitoring                                  |
+| topic         | bym/ruter/[vehicleRef]/[Line]/vm                    |
 | qos           | 0                                                   |
 | retained      | false                                               |
 | frequency     | approx. 1/sec per vehicle                           |
