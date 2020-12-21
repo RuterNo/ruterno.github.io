@@ -1,11 +1,11 @@
 # TSP Messages
 
-**Version 0.1**
+**Version 0.9**
 
 The TSP messages (Transit Signal Priority) are used to communicate with BYMs signal priority solution.
 
 The messages are encoded as json payloads, and you can validate any payload by using the corresponding JSON schema 
-definition found in the corresponding [JSON schema repository](#json-schemas).
+definition found in the corresponding [JSON schema repository](#JSON-Schemas).
 
 MQTT is used as the transport mechanism for all TSP messages. MQTT is a simple pub-sub based messaging protocol, that 
 works on top of TCP/IP as well as on websockets.
@@ -40,10 +40,11 @@ The following is a summary of the messages
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
 | vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
+| offJourney          | boolean | true if the vehicle is currently off the intended journey. In that case quayRef, distanceMeter, order and delaySeconds values will freeze|
 | journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving.|
 | quayRef	          | string  | Reference to the quay that the vehicle is currently at or driving towards.|
 | order               | integer | The order of the quay that the vehicle is currently at or driving towards|
-| position            | geoJson | cordinates of the vehicle, as defined by GeoJson type Point: [longitude, latitude]|
+| position            | geoJSON | Location of of the vehicle, GeoJSON geometry object, type Point, WGS84|
 | distanceMeter	      | number  | The distance driven towards the quay that the vehicle is currently at or driving towards. Note: approximate if odometer is missing|
 | occupancyPercent    | integer | The occupancy of the bus delivered in percent.|
 | delaySeconds        | integer | The current delay of the vehicle compared to the plan|
@@ -56,11 +57,15 @@ The following is a summary of the messages
   "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
   "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
   "vehicleRef": "XYZ0123X0X0123456",
+  "offJourney":false,
   "journeyPatternRef": "RUT:JourneyPattern:123",
   "quayRef": "NSR:Quay:123",
   "order": 1,
   "distanceMeter": 32.5,
-  "position": [10.7522, 59.9139],
+  "position": {
+    "type": "Point",
+    "coordinates": [10.7522, 59.9139]
+  },
   "delaySeconds": -10,
   "doorsOpen": false
 }
@@ -85,8 +90,10 @@ The following is a summary of the messages
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
 | vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
-| journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving.|
+| offDuty             | boolean | true if the vehicle does not currently drive a journey. If true, journeyPatternRef, line and journeyPattern will be null|
+| journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving|
 | line  	          | string  | Line number|
+| destination         | string  | The name of the stopPlace of the last quay in journeyPattern|
 | journeyPattern      | array   | Array of Links (see below) The complete journeyPattern the vehicle is to drive |
 
 ##### Link
@@ -94,7 +101,7 @@ The following is a summary of the messages
 |---------------------|---------|-----------------------------------------------------------------------------------|
 | order               | integer | The order of the stop|
 | quayRef             | string  | Reference to the quay of the stop|
-| lineString          | geoJson | coordinates as the field is defined in GeoJSON LineString. May be empty|
+| lineString          | geoJSON | The line the vehicle intend to drive. GeoJSON geometry object, type LineString, WGS84|
 
 #### Example payload
 ```json
@@ -103,20 +110,43 @@ The following is a summary of the messages
   "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
   "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
   "vehicleRef": "XYZ0123X0X0123456",
+  "offDuty": false,
   "journeyPatternRef": "RUT:JourneyPattern:123",
   "line": "36E",
+  "destination": "Oslo Bussterminal",
   "journeyPattern": [
     {
       "order": 1,
       "quayRef": "NSR:Quay:123",
-      "lineString": []
+      "lineString": {
+        "type": "LineString",
+        "coordinates":  [[10.7522, 59.9139], [10.7522, 59.9139]]
+      }
     },
     {
       "order": 2,
       "quayRef": "NSR:Quay:1234",
-      "lineString": [[10.7522, 59.9139], [10.7522, 59.9139]]
+      "lineString": {
+        "type": "LineString",
+        "coordinates":  [[10.7522, 59.9139], [10.7522, 59.9139]]
+      }
     }
   ]
+}
+```
+
+offDuty example:
+```json
+{
+  "eventTimestamp": "2019-10-15T09:06:10.285218Z",
+  "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
+  "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
+  "vehicleRef": "XYZ0123X0X0123456",
+  "offDuty": true,
+  "journeyPatternRef": null,
+  "line": null,
+  "destination": null,
+  "journeyPattern": null
 }
 ```
 
@@ -139,6 +169,8 @@ The following is a summary of the messages
 | publishedTimestamp  | string  | Timestamp close to when the message was generated. ISO 8601 UTC. |
 | traceId             | string  | trace-id of this message. UUID. |
 | vehicleRef          | string  | Reference of the vehicle. 17-character VIN or 8 character number.|
+| line                | string  | Line number|
+| journeyPatternRef   | string  | Reference to the journey pattern the vehicle is currently driving.|
 | signalRef           | string  | Reference to the signal that was triggered|
 | signalName          | string  | Name of the signal/crossroads|
 | signalPosition      | geoJson | Coordinates of the signal that was triggered, as defined by GeoJson type Point: [longitude, latitude]|
@@ -151,9 +183,14 @@ The following is a summary of the messages
   "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
   "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
   "vehicleRef": "XYZ0123X0X0123456",
-  "signalRef":  "?",
-  "signalName":  "?",
-  "signalPosition": [10.7522, 59.9139],
+  "line": "36E",
+  "journeyPatternRef": "RUT:JourneyPattern:123",
+  "triggerPointRef":  "?",
+  "triggerPointName":  "?",
+  "triggerPointPosition": {
+    "type": "Point",
+    "coordinates": [10.7522, 59.9139]
+  },
   "priorityLevel": "?"
 }
 ```
