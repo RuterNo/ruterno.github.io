@@ -1,6 +1,6 @@
 # TSP Messages
 
-**Version 0.9**
+**Version 1.0**
 
 The TSP messages (Transit Signal Priority) are used to communicate with BYMs signal priority solution.
 
@@ -15,9 +15,9 @@ The following is a summary of the messages
 
 | Local topic                        | Change     | Receiver    | Name                                     | Comments                                                                                                                                                                                                  |
 |------------------------------------|------------|-------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bym/ruter/[vehicleRef]/[Line]/vm   | yes        | BYM         | [Vehicle monitoring](#Vehicle-monitoring)| Line added in vm-topic. Added offJourney-flag. Position now full geoJSON object|
-| bym/ruter/[vehicleRef]/journey     | yes        | BYM         | [Journey](#Journey)                      | Added offDuty flag. LineString full geoJSON. journeyPatternRef, Line, destination, journeyPattern now nullable|
-| ruter/bym/[vehicleRef]/tspack      | yes        | Ruter       | [TSP ack](#TSP-ack)                      | Added Line and journeyPatternRef|
+| bym/ruter/[vehicleRef]/[Line]/vm   | no         | BYM         | [Vehicle monitoring](#Vehicle-monitoring)| |
+| bym/ruter/[vehicleRef]/journey     | yes        | BYM         | [Journey](#Journey)                      | added missing distanceMeter in journeyPattern|
+| ruter/bym/[vehicleRef]/tspack      | no         | Ruter       | [TSP ack](#TSP-ack)                      | |
 
 ## Description of messages
 
@@ -101,11 +101,11 @@ The following is a summary of the messages
 |---------------------|---------|-----------------------------------------------------------------------------------|
 | order               | integer | The order of the stop|
 | quayRef             | string  | Reference to the quay of the stop|
+| distanceMeter       | number  | The distance the vehicle intend to drive towards this stop|
 | lineString          | geoJSON | The line the vehicle intend to drive. GeoJSON geometry object, type LineString, WGS84|
 
 #### Example payload
 ```json
-{
   "eventTimestamp": "2019-10-15T09:06:10.285218Z",
   "publishedTimestamp": "2019-10-15T09:06:15.285218Z",
   "traceId": "40634dfc-b8bc-44b5-9353-161ac0b0e80b",
@@ -118,6 +118,7 @@ The following is a summary of the messages
     {
       "order": 1,
       "quayRef": "NSR:Quay:123",
+      "distanceMeter": 0.0,
       "lineString": {
         "type": "LineString",
         "coordinates":  [[10.7522, 59.9139], [10.7522, 59.9139]]
@@ -126,6 +127,7 @@ The following is a summary of the messages
     {
       "order": 2,
       "quayRef": "NSR:Quay:1234",
+      "distanceMeter": 100.7,
       "lineString": {
         "type": "LineString",
         "coordinates":  [[10.7522, 59.9139], [10.7522, 59.9139]]
