@@ -15,9 +15,9 @@ The following is a summary of the messages
 
 | Local topic                        | Change     | Receiver    | Name                                     | Comments                                                                                                                                                                                                  |
 |------------------------------------|------------|-------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bym/ruter/[vehicleRef]/[Line]/vm   | no         | BYM         | [Vehicle monitoring](#Vehicle-monitoring)| |
-| bym/ruter/[vehicleRef]/journey     | yes        | BYM         | [Journey](#Journey)                      | added missing distanceMeter in journeyPattern|
-| ruter/bym/[vehicleRef]/tspack      | no         | Ruter       | [TSP ack](#TSP-ack)                      | |
+| bym/ruter/[vehicleRef]/[Line]/vm/v1 | yes       | BYM         | [Vehicle monitoring](#Vehicle-monitoring)| added 'v1' in topicname |
+| bym/ruter/[vehicleRef]/journey/v1   | yes       | BYM         | [Journey](#Journey)                      | added 'v1' in topicname + added missing distanceMeter in journeyPattern |
+| ruter/bym/[vehicleRef]/tspack/v1    | yes       | Ruter       | [TSP ack](#TSP-ack)                      | added 'v1' in topicname |
 
 ## Description of messages
 
@@ -26,7 +26,7 @@ The following is a summary of the messages
 | | |
 |-------------|-------------|
 | Name          | Vehicle monitoring                                  |
-| topic         | bym/ruter/[vehicleRef]/[Line]/vm                    |
+| topic         | bym/ruter/[vehicleRef]/[Line]/vm/v1                 |
 | qos           | 0                                                   |
 | retained      | false                                               |
 | frequency     | approx. 1/sec per vehicle                           |
@@ -76,7 +76,7 @@ The following is a summary of the messages
 | | |
 |-------------|-------------|
 | Name          | Journey                                             |
-| topic         | bym/ruter/[vehicleRef]/journey                      |
+| topic         | bym/ruter/[vehicleRef]/journey/v1                   |
 | qos           | 1                                                   |
 | retained      | true                                                |
 | frequency     | approx. 1/hour per vehicle                          |
@@ -157,7 +157,7 @@ offDuty example:
 | | |
 |-------------|-------------|
 | Name          | TSP ack                                             |
-| topic         | ruter/bym/[vehicleRef]/tspack                       |
+| topic         | ruter/bym/[vehicleRef]/tspack/v1                    |
 | qos           | 0                                                   |
 | retained      | false                                               |
 | frequency     | approx. 1/min per vehicle?                          |
