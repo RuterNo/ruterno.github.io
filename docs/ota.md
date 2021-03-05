@@ -775,7 +775,7 @@ Message to be shown on the external destination display. Usually line number (pu
 
 >Note: external destination displays have previously been referred to as "sign boxes".
 
-#### Example payload
+#### Example payloads
 ```json
 {
    "eventTimestamp": "2017-10-31T08:38:02.749Z",
@@ -785,12 +785,19 @@ Message to be shown on the external destination display. Usually line number (pu
 }
 ```
 
+```json
+{
+   "eventTimestamp": "2021-03-04T15:08:07.519Z",
+   "destination":"Ikke i trafikk"
+}
+```
+
 #### Fields
 
 | Name               | Type   | Description                                                                        |
 |--------------------|--------|------------------------------------------------------------------------------------|
 | eventTimestamp     | string | ISO 8601, UTC                                                                      |
-| publicCode         | string | Publicly known bus, tram or subway line number                                     |
+| publicCode         | string | Publicly known bus, tram or subway line number (Optional)                                      |
 | destination        | string | Final stop or explicitly set destination text                                      |
 | alternativeMessage | string | Second line of sign used for via or other supplementary information when available (optional) |
 
