@@ -98,6 +98,8 @@ Manually setting up this structure would be done with the following steps (verif
 ```
 Automation should be based on these kinds of steps.
 
+## Web Server
+
 Using nginx or some other proxy/webserver, point the root of the site to `/var/www/application`.
 
 A very simple nginx configuration would be (for example by modifying /etc/nginx/conf.d/default.conf):
