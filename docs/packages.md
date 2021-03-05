@@ -30,7 +30,7 @@ It is expected that new packages should be installed on all vehicles running in 
 
 When a new version of the packages is published the timestamp will increment.
 
-Use the URL to fetch the packages and use for instance `cat $PACKAGE_PATH > sha256sum` to check that the downloaded Zip file is the same as in the manifest.
+Use the URL to fetch the packages and check that the downloaded Zip file has the same SHA256 values as in the manifest.
 
 ## Placement of Files
 
