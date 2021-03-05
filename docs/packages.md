@@ -1,6 +1,6 @@
 # DPI Packages
 
-Ruter publishes a list of packages in a packages manifest of what should be installed on vehicles at the following locations.
+Ruter publishes a packages manifest that provides a list of packages that should be installed on vehicles at the following locations.
 
 | Environment | URL | Purpose |
 | --- | ---| --- |
