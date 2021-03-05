@@ -100,7 +100,7 @@ Automation should be based on these kinds of steps.
 
 ## Web Server
 
-Using nginx or some other proxy/webserver, point the root of the site to `/var/www/application`.
+Using nginx or some other proxy/webserver, point the root of the site to `/var/www/application` (or wherever $APPLICATION_ROOT points to).
 
 A very simple nginx configuration would be (for example by modifying /etc/nginx/conf.d/default.conf):
 
