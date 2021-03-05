@@ -98,6 +98,20 @@ Automation should be based on these kinds of steps.
 
 Using nginx or some other proxy/webserver, point the root of the site to `/var/www/application`.
 
+A very simple nginx configuration would be (for example by modifying /etc/nginx/conf.d/default.conf):
+
+```
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/application;
+
+	location / {
+	}
+}
+```
+
 When a web server is set up, displays in a vehicle would point to the DPI application with a url like `http://webserver.local/app/index.html`.
 
 See [DPI Bus Monitor Screen Configuration](client/screen-configs.md) documentation for more details about setting up displays with the correct content.
