@@ -4,7 +4,7 @@ Ruter publishes a packages manifest that provides a list of packages that should
 
 | Environment | URL | Purpose |
 | --- | ---| --- |
-| Prod | https://bus-dpi.transhub.io/prod/packages.json | All vehicle running regular routes |
+| Prod | https://bus-dpi.transhub.io/prod/packages.json | All vehicles running regular routes |
 | Stage | https://bus-dpi.transhub.io/stage/packages.json | Test rigs, vehicles being tested before running regular routes |
 
 These locations should be checked once daily, at a minimum, after 16.00 CET, which is our cutoff for changes for the day, Monday to Friday.
