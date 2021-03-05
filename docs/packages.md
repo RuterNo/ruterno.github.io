@@ -61,7 +61,8 @@ Manually setting up this structure would be done with the following steps (verif
 /var/www/application # mkdir media
 /var/www/application # cd media
 /var/www/application/media # unzip ~/media-2019-10-16T15-11-00Z.zip
-/var/www/application/media # tree ..
+/var/www/application/media # cd ..
+/var/www/application # tree
 ..
 ├── app
 │   ├── 04889d2190d60b7f58a067bc5b3a0a99.woff2
