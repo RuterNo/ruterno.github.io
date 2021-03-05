@@ -36,9 +36,11 @@ Use the URL to fetch the packages and check that the downloaded Zip file has the
 
 Currently the two zip files are organized internally slightly differently, and this affects how they need to be handled. The destination in the manifest refers to where the working directory must be when the file is unzipped.
 
+In addition, the destination "application" should be thought of a location chosen by the operator, which we can call $APPLICATION_ROOT.
+
 The packages should end up deployed in a structure like this:
 
-* application
+* $APPLICATION_ROOT
   * app
   * media
     
