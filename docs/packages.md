@@ -94,7 +94,9 @@ Manually setting up this structure would be done with the following steps (verif
     └── ruter-sommerkampanje.mp4
 
 ```
+Automation should be based on these kinds of steps.
+
 Using nginx or some other proxy/webserver, point the root of the site to `/var/www/application`.
 
-Automation should be based on these kinds of steps.
+When a web server is set up, displays in a vehicle would point to the DPI application with a url like `http://webserver.local/app/index.html`.
 
