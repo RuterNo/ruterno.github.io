@@ -1,7 +1,7 @@
 # DPI Bus Monitor Screen Configuration
 
 DPI Bus-monitor supports a range of pre-defined display types depending on size of the screen, screen location and functional needs.
-These screens are accessible directly through URL with following schema: `{BaseURL}/#display/{type}`, eg. `http://localhost/#display/1`.
+These screens are accessible directly through a URL with following schema: `{BaseURL}/app/#display/{type}`, eg. `http://webserver.local/app/#display/1`.
 
 ## Overview of screen types
 
