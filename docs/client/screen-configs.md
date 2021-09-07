@@ -19,10 +19,14 @@ These screens are accessible directly through a URL with following schema: `{Bas
 
 \* These are approx. values and subject to change.
 
-## Distribution channels (coming in August, 2021)
+## Distribution channels
 
 Additionally, for public announcements, it is possible to target specific screens by which channels they subscribe to. You define which channels to subscribe to in the URL with following schema:
-`{BaseURL}/app/#display/{type}?channels=channel_name[filter_key}=filter_value,addiitonal_channel_name`, e.g. `http://webserver.local/app/#display/1?channels=short_platform[active_cab]=c1,news`
+`{BaseURL}/app/#display/{type}?channels=channel_name[filter_key}=filter_value,additional_channel_name`.
+
+### Short platform
+- t2-left: `{BaseURL}/app/#display/t2-left?channels=short_platform[active_cab]=c1`
+- t2-right: `{BaseURL}/app/#display/t2-right?channels=short_platform[active_cab]=c1`
 
 Keep in mind that the keys and values are case-sensitive.
 
