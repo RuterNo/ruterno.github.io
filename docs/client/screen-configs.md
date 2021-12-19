@@ -5,17 +5,19 @@ These screens are accessible directly through a URL with following schema: `{Bas
 
 ## Overview of screen types
 
-| Id | Content | Aspect ratio | Optimal screen resolution (width x height) | Vehicle type
-|----|---------|--------------|--------------------------------------------|------------- 
-| 1  | Journey, Media | 32:9 | 1920x540 | Bus
-| 2 | Horizontal journey | 48:9 | 1920x360 | Bus
-| 3 | Journey | 16:9  | 1920x1080, 960x540 | Bus
-| 4 | Journey / Media | 16:9 |  1920x1080, 960x540 | Bus
-| AB-1 | Journey | 8:13*  | 800x1300* | Autonomous bus
-| AB-2 | Campaigns, Deviation | 8:13*  | 800x1300* | Autonomous bus
-| t2-left | Journey |  1920:197 | 1920x197 | Tram (SL18)
-| t2-right | Journey (reverse) |  1920:197 | 1920x197 | Tram (SL18)
-| t3 | Next stop, destination |  128:9 | 1920x285 | Tram (SL18)
+| Id       | Content                       | Aspect ratio | Optimal screen resolution (width x height) | Vehicle type
+|----------|-------------------------------|--------------|--------------------------------------------|------------- 
+| 1        | Journey, Media                | 32:9         | 1920x540 | Bus
+| 2        | Horizontal journey            | 48:9         | 1920x360 | Bus
+| 3        | Journey                       | 16:9         | 1920x1080, 960x540 | Bus
+| 4        | Journey / Media               | 16:9         |  1920x1080, 960x540 | Bus
+| AB-1     | Journey                       | 8:13*        | 800x1300* | Autonomous bus
+| AB-2     | Campaigns, Deviation          | 8:13*        | 800x1300* | Autonomous bus
+| t2-left  | Journey                       | 1920:197     | 1920x197 | Tram (SL18)
+| t2-right | Journey (reverse)             | 1920:197     | 1920x197 | Tram (SL18)
+| t3       | Next stop, destination        | 128:9        | 1920x285 | Tram (SL18)
+| b1       | Next stop, destination, journey     | 16:9         | 1920x1080 | Ferry (Boreal)
+| b2        | Next stop, destination, media | 16:9         | 1920x1080 | Ferry (Boreal)
 
 \* These are approx. values and subject to change.
 
@@ -137,4 +139,29 @@ Running state of t2-left. This is the only state (cf. [trouble shooting](docs/cl
 #### State 3 - next stop produced with active stop signal
 
 ![Next stop and stopping](../../assets/images/client/config/config-t3-3.jpeg)
+
+### Screen config b1 
+
+![Running state](../../assets/images/client/config/config-b1.png)
+
+Running state of config b1.
+Intended for screens dedicated to showing journey, i.e. media content (campaign, video) and deviations / announcements will be ignored.
+This is the primary screen. 
+
+### Screen config b2
+
+![Running state](../../assets/images/client/config/config-b2.png)
+
+Running state of config b1.
+Secondary information, intended for displaying safety announcements, deviations and other media content types.
+
+When there is no active media content playing, the screen will show information about next stop, destination and sensor information from the ferry 
+as fallback. The sensor data is derived from following topics:
+
+1. sensors/telemetry/01001016 - water temperature
+2. sensors/weather - wind data 
+3. sensors/telemetry/01001011 - temperature outside (ambient)
+
+
+
 
