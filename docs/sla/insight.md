@@ -54,7 +54,7 @@ Along with the overall Compliance value, a list of zero or more ComplianceFault 
 | JourneyStatus        | enumeration      | ON_SERVICE_JOURNEY / ON_DEAD_RUN / UNKNOWN. LatestJourneyId is evaluate to determine this value.                                  |
 | TotalDisplayCount    | integer          | count of all client IDs that have been recorded since state has been recorded. (State will be reset after 4 hours of inactivity.) |
 | ExpectedDisplayCount | integer          | number of expected client IDs / displays for this vehicle. If incorrect, please contact: `rdp-support@ruter.no`                   |
-| LiveDisplayCount     | integer          | count of displays sending heartbeat at evaluation time. The will be listed in the following item.                                 |
+| LiveDisplayCount     | integer          | count of displays sending heartbeat at evaluation time. These will be listed in the following item.                               |
 | Displays             | array of Display | list of all displays sending heartbeat at evaluation time. See next section for definition of Display.                            |
 
 ###### Display
