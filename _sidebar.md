@@ -10,3 +10,4 @@
 * [Repositories](docs/repos.md)
 * [Screen configuration (client)](docs/client/screen-configs.md)
 * [Troubleshooting (client)](docs/client/troubleshooting-client.md)
+* [SLA Insight](docs/sla/insight.md)
