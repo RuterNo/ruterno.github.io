@@ -21,13 +21,13 @@ The application reports any change to display statuses as retained messages on M
 
 #### Evaluation
 
-The following things are checked:
+Based on data sent to the vehicle and DPI diagnostic messages received from the vehicle, the following things are checked:
 
 * Are any displays running?
 * Are the right number of displays running for the bus type?
 * Are the displays running the right version of the DPI application?
 * Are the displays showing the current route?
-* Do the screens have data persistence?
+* Do the screens have client-side storage in browser? 
 * Is the screen resolution matched to the right display type?
 
 These are determined in the ComplianceCalculator class. It will evaluate all of these and produce the following compliance values:
