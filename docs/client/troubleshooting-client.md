@@ -5,7 +5,7 @@ Listed below are situations that may occur and how these situations are indicate
 #### Unable to establish connection to local mqtt-bridge
 ![Unable to establish connection](../../assets/images/client/no_connection.png)
 
-Note: dark blue background 
+Note the slightly blueish gray background color.
 
 This means the client is unable to connect to the `ws://mqtt-broker:9883/mqtt` endpoint.
 ##### Checklist:
@@ -15,8 +15,6 @@ This means the client is unable to connect to the `ws://mqtt-broker:9883/mqtt` e
 #### No journey received
 ![Unable to establish connection](../../assets/images/client/no_journey.png)
 
-Note: dark black background 
-
 This means the client has established a connection to the mqtt-broker, but at the point of time has not received a journey.
 It may or have not received data on other topics. 
 
@@ -24,9 +22,10 @@ It may or have not received data on other topics.
  1. Verify that the topics mappings in mqtt-bridge config are correct, 
     e.g. ```topic json in 1 infohub/dpi/journey/ operator_name/ruter/vehicle_id/itxpt/ota/dpi/journey/```
  2. Use a mqtt-client to subscribe to wildcard (`#`) in order to inspect incoming data and on which topics they are being sent.
-  
-#### dry-run journey
-The journey qualifies as a dead-run when the public code of the line equals `0`.
 
-![Unable to establish connection](../../assets/images/client/dry_run.png)
+
+#### Dead run
+The journey qualifies as a dead-run when the public code of the line equals `0`, route id is `RUT:Route:0`, or journey id includes a substring of `RUT:DeadRun:0`.
+
+![Unable to establish connection](../../assets/images/client/dead-run.png)
 
