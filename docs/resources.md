@@ -16,9 +16,9 @@ The manifest will be available at the following URLs:
 
 | Environment | URL |
 | --- | --- |
-| test | https://bus-dpi.transhub.io/test/resources.json |
-| stage | https://bus-dpi.transhub.io/stage/resources.json |
-| prod | https://bus-dpi.transhub.io/prod/resources.json |
+| test | https://pto-api.test.transhub.io/resources.json |
+| stage | https://pto-api.stage.transhub.io/resources.json |
+| prod | https://pto-api.transhub.io/resources.json |
 
 ## Resources Provided
 
