@@ -1,7 +1,7 @@
 <!-- docs/_sidebar.md -->
 
 * [Home](README.md)
-* [OTA Messages](docs/ota.md)
+* [ADT API](https://adt.transhub.io)
 * [TSP Messages](docs/tsp.md)
 * [MQTT](docs/mqtt.md)
 * [DPI Packages](docs/packages.md)  
